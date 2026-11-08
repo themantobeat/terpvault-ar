@@ -52,7 +52,7 @@
   <model-viewer id="mv" alt="TerpVault Pre-Roll and Bud Vault display"
     ar ar-modes="webxr scene-viewer quick-look" ar-scale="fixed" ar-placement="floor"
     camera-controls touch-action="pan-y" max-camera-orbit="auto auto 1.4m" 
-    camera-orbit="-22deg 76deg 0.38m" camera-target="0m 0.1m 0m" min-camera-orbit="auto auto 0.08m" shadow-intensity="1.6" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg?v=30" shadow-softness="0.85"
+    camera-orbit="-22deg 76deg 0.38m" camera-target="0m 0.1m 0m" min-camera-orbit="auto auto 0.08m" shadow-intensity="1.6" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg?v=31" shadow-softness="0.85"
     interaction-prompt="auto">
     <button slot="ar-button" class="ar-btn">View in your space</button>
     <div slot="hotspot-floor" class="hs" data-position="0m 0m 0m" data-normal="0m 1m 0m"></div>
@@ -68,13 +68,13 @@
   <p class="hint">Drag to spin, scroll to zoom. AR works in Chrome on Android and Safari on iPhone.</p>
 <script>
   const mv = document.getElementById('mv');
-  mv.src = 'terp_vault_display.glb?v=30';
-  mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=30');
+  mv.src = 'terp_vault_display.glb?v=31';
+  mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=31');
   // small screens: pull back and sit the model lower so the title never covers a lid
   // wide, short frames (like the Wix section) start closer so the vaults fill the frame
   if (innerWidth >= 700) {
-    const asp = innerWidth / innerHeight, r = Math.max(0.43, 0.435 / asp);
-    mv.setAttribute('camera-orbit', '-22deg 76deg ' + r + 'm'); mv.setAttribute('camera-target', '0m 0.1m 0m');
+    const asp = innerWidth / innerHeight, r = Math.max(0.385, 0.435 / asp);
+    mv.setAttribute('camera-orbit', '-22deg 76deg ' + r + 'm'); mv.setAttribute('camera-target', '0m 0.09m 0m');
   }
   if (innerWidth < 700) { mv.setAttribute('camera-orbit', '-22deg 76deg 0.70m'); mv.setAttribute('camera-target', '0m 0.105m 0m'); }
   mv.addEventListener('error', () => { document.getElementById('err').textContent = 'Could not load the model.'; });
