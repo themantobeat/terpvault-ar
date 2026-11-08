@@ -15,6 +15,7 @@
   header p { margin:6px 0 0; color:var(--muted); font-size:14px; line-height:1.35; }
   model-viewer { position:absolute; inset:0; width:100%; height:100%; --poster-color:transparent; }
   @media (max-width:700px) { .ar-btn { font-size:14px !important; padding:11px 18px !important; } }
+  model-viewer.in-frame .ar-btn { display:none; }
   .ar-btn { position:absolute; left:50%; bottom:calc(18px + env(safe-area-inset-bottom, 0px)); transform:translateX(-50%); font:500 16px system-ui, sans-serif; background:var(--mint); color:#0b0b0b; border:0; border-radius:999px; padding:13px 22px; cursor:pointer; white-space:nowrap; }
   .hint { position:absolute; z-index:2; left:16px; bottom:12px; margin:0; max-width:46%; color:var(--muted); font-size:12px; pointer-events:none; }
   /* desktop: a small 'View in your room' card in the corner, so the model gets the whole page */
@@ -40,7 +41,7 @@
   <model-viewer id="mv" alt="TerpVault Pre-Roll and Bud Vault display"
     ar ar-modes="webxr scene-viewer quick-look" ar-scale="fixed" ar-placement="floor"
     camera-controls touch-action="pan-y" max-camera-orbit="auto auto 1.4m" 
-    camera-orbit="-22deg 76deg 0.46m" camera-target="0m 0.095m 0m" min-camera-orbit="auto auto 0.08m" shadow-intensity="0.9" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg?v=16" shadow-softness="0.6"
+    camera-orbit="-22deg 76deg 0.46m" camera-target="0m 0.095m 0m" min-camera-orbit="auto auto 0.08m" shadow-intensity="0.9" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg?v=17" shadow-softness="0.6"
     interaction-prompt="auto">
     <button slot="ar-button" class="ar-btn">View in your space</button>
   </model-viewer>
@@ -55,8 +56,8 @@
   <p class="hint">Drag to spin, scroll to zoom. AR works in Chrome on Android and Safari on iPhone.</p>
 <script>
   const mv = document.getElementById('mv');
-  mv.src = 'terp_vault_display.glb?v=16';
-  mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=16');
+  mv.src = 'terp_vault_display.glb?v=17';
+  mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=17');
   // small screens: pull back and sit the model lower so the title never covers a lid
   if (innerWidth < 700) { mv.setAttribute('camera-orbit', '-22deg 76deg 0.70m'); mv.setAttribute('camera-target', '0m 0.112m 0m'); }
   mv.addEventListener('error', () => { document.getElementById('err').textContent = 'Could not load the model.'; });
@@ -69,13 +70,20 @@
     const box = document.getElementById('arfb'), txt = document.getElementById('arfb-text');
     const phone = matchMedia('(pointer:coarse)').matches || innerWidth < 700;   // phone-sized or touch: the device itself is the AR device
     if (phone) {
-      // on the full page the built-in "View in your space" button (bottom centre) starts AR
-      if (mv.canActivateAR && !inFrame) { box.style.display = 'none'; return; }
-      // inside an embed AR is often blocked, so the button opens the full page where it works
+      // one button only: on the full page the built-in "View in your space" button starts AR
+      if (!inFrame) {
+        if (mv.canActivateAR) { box.style.display = 'none'; return; }
+        box.style.display = 'block'; box.classList.add('link');
+        txt.textContent = 'AR needs Chrome on Android or Safari on iPhone.';
+        return;
+      }
+      // inside the Wix embed: this button replaces the built-in one and starts AR right here; only if the phone refuses AR in a frame does it open the full page
+      mv.classList.add('in-frame');
       box.style.display = 'block'; box.classList.add('link');
-      txt.innerHTML = inFrame
-        ? '<a class="arbtn" href="' + fullUrl + '" target="_blank" rel="noopener">View in your space</a>'
-        : 'AR needs Chrome on Android or Safari on iPhone.';
+      txt.innerHTML = '<a class="arbtn" id="argo" href="' + fullUrl + '" target="_blank" rel="noopener">View in your space</a>';
+      document.getElementById('argo').addEventListener('click', (e) => {
+        if (mv.canActivateAR) { e.preventDefault(); mv.activateAR(); }
+      });
       return;
     }
     // computer: a QR code that opens this page on a phone
