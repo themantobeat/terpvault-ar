@@ -1,0 +1,10 @@
+<!doctype html><meta charset="utf-8"><title>send</title><body style="background:#111;color:#ccc;font:14px system-ui">sending…
+<script>
+(async()=>{
+  const names=(new URLSearchParams(location.search).get('f')||'').split(',').filter(Boolean);
+  const out=[];
+  for(const n of names){const r=await fetch(n,{cache:'no-store'});out.push({name:n,type:r.headers.get('content-type'),buf:await r.arrayBuffer()});}
+  if(window.opener){window.opener.postMessage({tvMedia:out},'*');document.body.textContent='sent '+out.length;setTimeout(()=>window.close(),1500);}
+  else document.body.textContent='no opener';
+})();
+</script>
