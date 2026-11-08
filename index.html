@@ -30,7 +30,7 @@
   <model-viewer id="mv" alt="TerpVault Pre-Roll and Bud Vault display"
     ar ar-modes="webxr scene-viewer quick-look" ar-scale="fixed" ar-placement="floor"
     camera-controls touch-action="pan-y" 
-    camera-orbit="-22deg 76deg 0.40m" camera-target="0m 0.095m 0m" min-camera-orbit="auto auto 0.1m" shadow-intensity="0.9" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg?v=8" shadow-softness="0.6"
+    camera-orbit="-22deg 76deg 0.40m" camera-target="0m 0.095m 0m" min-camera-orbit="auto auto 0.1m" shadow-intensity="0.9" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg?v=9" shadow-softness="0.6"
     interaction-prompt="auto">
     <button slot="ar-button" class="ar-btn">View in your space</button>
   </model-viewer>
@@ -42,8 +42,8 @@
   <p class="hint">Shown at real size in AR. Works in Chrome on Android and Safari on iPhone.</p>
 <script>
   const mv = document.getElementById('mv');
-  mv.src = 'terp_vault_display.glb?v=8';
-  mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=8');
+  mv.src = 'terp_vault_display.glb?v=9';
+  mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=9');
   mv.addEventListener('error', () => { document.getElementById('err').textContent = 'Could not load the model.'; });
 
   // AR needs a phone. Show a clear fallback when this browser cannot start AR (desktop, or inside an embed).
