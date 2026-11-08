@@ -27,7 +27,7 @@
   <model-viewer id="mv" alt="TerpVault Pre-Roll and Bud Vault display"
     ar ar-modes="webxr scene-viewer quick-look" ar-scale="fixed" ar-placement="floor"
     camera-controls touch-action="pan-y" auto-rotate auto-rotate-delay="2500" rotation-per-second="14deg"
-    camera-orbit="0deg 78deg auto" shadow-intensity="0.9" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg" shadow-softness="0.6"
+    camera-orbit="0deg 78deg auto" shadow-intensity="0.9" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg?v=3" shadow-softness="0.6"
     interaction-prompt="auto">
     <button slot="ar-button" class="ar-btn">View in your space</button>
   </model-viewer>
@@ -35,8 +35,8 @@
   <p class="hint">Shown at real size in AR. Works in Chrome on Android and Safari on iPhone.</p>
 <script>
   const mv = document.getElementById('mv');
-  mv.src = 'terp_vault_display.glb';
-  mv.setAttribute('ios-src', 'terp_vault_display.usdz');
+  mv.src = 'terp_vault_display.glb?v=3';
+  mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=3');
   mv.addEventListener('error', () => { document.getElementById('err').textContent = 'Could not load the model.'; });
 </script>
 </body>
