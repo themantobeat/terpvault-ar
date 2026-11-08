@@ -10,15 +10,17 @@
   * { box-sizing: border-box; }
   html, body { margin:0; height:100%; background:var(--bg); color:var(--cream); font-family:system-ui, sans-serif; }
   body { position:relative; min-height:100dvh; overflow:hidden; }
-  header { position:absolute; z-index:2; left:0; right:0; top:0; padding:14px 16px 0; text-align:center; pointer-events:none; }
-  h1 { color:var(--mint); margin:0; font-size:clamp(24px,6vw,36px); letter-spacing:.02em; }
-  header p { margin:4px 0 0; color:var(--muted); font-size:14px; }
+  header { position:absolute; z-index:2; left:0; top:0; max-width:min(46%, 420px); padding:18px 20px 0; text-align:left; pointer-events:none; }
+  h1 { color:var(--mint); margin:0; font-size:clamp(20px,3.4vw,30px); line-height:1.1; letter-spacing:.03em; text-wrap:balance; }
+  header p { margin:6px 0 0; color:var(--muted); font-size:14px; line-height:1.35; }
   model-viewer { position:absolute; inset:0; width:100%; height:100%; --poster-color:transparent; }
   .ar-btn { position:absolute; left:50%; bottom:calc(18px + env(safe-area-inset-bottom, 0px)); transform:translateX(-50%); font:500 16px system-ui, sans-serif; background:var(--mint); color:#0b0b0b; border:0; border-radius:999px; padding:13px 22px; cursor:pointer; white-space:nowrap; }
   .hint { position:absolute; z-index:2; left:16px; bottom:12px; margin:0; max-width:46%; color:var(--muted); font-size:12px; pointer-events:none; }
   /* desktop: a small 'View in your room' card in the corner, so the model gets the whole page */
   .ar-fallback { display:none; position:absolute; z-index:3; right:16px; bottom:16px; width:236px; padding:12px; border-radius:14px; background:rgba(22,22,22,.86); border:1px solid rgba(243,238,227,.14); backdrop-filter:blur(8px); color:var(--cream); font-size:13px; line-height:1.3; }
   .ar-fallback .row { display:flex; gap:12px; align-items:center; }
+  .ar-fallback .row[hidden] { display:none; }
+  @media (max-width:700px) { .hint { display:none; } }
   .ar-fallback img { width:84px; height:84px; flex:none; border-radius:8px; background:#fff; padding:4px; display:block; }
   .ar-fallback b { display:block; font-size:14px; margin-bottom:3px; color:var(--cream); }
   .ar-fallback span { color:var(--muted); }
@@ -34,8 +36,8 @@
   </header>
   <model-viewer id="mv" alt="TerpVault Pre-Roll and Bud Vault display"
     ar ar-modes="webxr scene-viewer quick-look" ar-scale="fixed" ar-placement="floor"
-    camera-controls touch-action="pan-y" 
-    camera-orbit="-22deg 76deg 0.46m" camera-target="0m 0.095m 0m" min-camera-orbit="auto auto 0.1m" shadow-intensity="0.9" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg?v=10" shadow-softness="0.6"
+    camera-controls touch-action="pan-y" max-camera-orbit="auto auto 1.4m" 
+    camera-orbit="-22deg 76deg 0.46m" camera-target="0m 0.095m 0m" min-camera-orbit="auto auto 0.08m" shadow-intensity="0.9" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg?v=12" shadow-softness="0.6"
     interaction-prompt="auto">
     <button slot="ar-button" class="ar-btn">View in your space</button>
   </model-viewer>
@@ -50,8 +52,10 @@
   <p class="hint">Drag to spin, scroll to zoom. AR works in Chrome on Android and Safari on iPhone.</p>
 <script>
   const mv = document.getElementById('mv');
-  mv.src = 'terp_vault_display.glb?v=10';
-  mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=10');
+  mv.src = 'terp_vault_display.glb?v=12';
+  mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=12');
+  // small screens: pull back and sit the model lower so the title never covers a lid
+  if (innerWidth < 700) { mv.setAttribute('camera-orbit', '-22deg 76deg 0.62m'); mv.setAttribute('camera-target', '0m 0.115m 0m'); }
   mv.addEventListener('error', () => { document.getElementById('err').textContent = 'Could not load the model.'; });
 
   // AR needs a phone. Show a clear fallback when this browser cannot start AR (desktop, or inside an embed).
