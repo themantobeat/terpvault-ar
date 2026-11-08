@@ -21,7 +21,7 @@
   .ar-fallback { display:none; position:absolute; z-index:3; right:16px; bottom:16px; width:236px; padding:12px; border-radius:14px; background:rgba(22,22,22,.86); border:1px solid rgba(243,238,227,.14); backdrop-filter:blur(8px); color:var(--cream); font-size:13px; line-height:1.3; }
   .ar-fallback .row { display:flex; gap:12px; align-items:center; }
   .ar-fallback .row[hidden] { display:none; }
-  @media (max-width:700px) { .hint { display:none; } }
+  @media (max-width:700px) { .hint { display:none; } header { max-width:86%; } }
   .ar-fallback img { width:84px; height:84px; flex:none; border-radius:8px; background:#fff; padding:4px; display:block; }
   .ar-fallback b { display:block; font-size:14px; margin-bottom:3px; color:var(--cream); }
   .ar-fallback span { color:var(--muted); }
@@ -38,7 +38,7 @@
   <model-viewer id="mv" alt="TerpVault Pre-Roll and Bud Vault display"
     ar ar-modes="webxr scene-viewer quick-look" ar-scale="fixed" ar-placement="floor"
     camera-controls touch-action="pan-y" max-camera-orbit="auto auto 1.4m" 
-    camera-orbit="-22deg 76deg 0.46m" camera-target="0m 0.095m 0m" min-camera-orbit="auto auto 0.08m" shadow-intensity="0.9" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg?v=13" shadow-softness="0.6"
+    camera-orbit="-22deg 76deg 0.46m" camera-target="0m 0.095m 0m" min-camera-orbit="auto auto 0.08m" shadow-intensity="0.9" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg?v=14" shadow-softness="0.6"
     interaction-prompt="auto">
     <button slot="ar-button" class="ar-btn">View in your space</button>
   </model-viewer>
@@ -53,8 +53,8 @@
   <p class="hint">Drag to spin, scroll to zoom. AR works in Chrome on Android and Safari on iPhone.</p>
 <script>
   const mv = document.getElementById('mv');
-  mv.src = 'terp_vault_display.glb?v=13';
-  mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=13');
+  mv.src = 'terp_vault_display.glb?v=14';
+  mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=14');
   // small screens: pull back and sit the model lower so the title never covers a lid
   if (innerWidth < 700) { mv.setAttribute('camera-orbit', '-22deg 76deg 0.70m'); mv.setAttribute('camera-target', '0m 0.112m 0m'); }
   mv.addEventListener('error', () => { document.getElementById('err').textContent = 'Could not load the model.'; });
