@@ -51,11 +51,12 @@
   const fullUrl = 'https://themantobeat.github.io/terpvault-ar/?utm_source=embed&utm_medium=ar_link&utm_campaign=ar_cross_section';
   function showFallback() {
     const box = document.getElementById('arfb'), txt = document.getElementById('arfb-text');
-    if (mv.canActivateAR) { box.style.display = 'none'; return; }
-    box.style.display = 'block';
     const touch = matchMedia('(pointer:coarse)').matches;
+    // phones: the built-in AR button works on the full page; inside an embed also offer a link that opens the full page, in case AR is blocked in the frame
+    if (mv.canActivateAR && !(touch && inFrame)) { box.style.display = 'none'; return; }
+    box.style.display = 'block';
     if (touch) {
-      txt.innerHTML = inFrame ? '<a href="' + fullUrl + '" target="_blank" rel="noopener">Open in AR on your table</a>' : 'AR is not available in this browser. Try Chrome (Android) or Safari (iPhone).';
+      txt.innerHTML = inFrame ? '<a href="' + fullUrl + '" target="_blank" rel="noopener">Tap to open full page and view in AR on your table</a>' : 'AR is not available in this browser. Try Chrome (Android) or Safari (iPhone).';
     } else {
       txt.textContent = 'To see it on your table, scan this with your phone:';
       document.getElementById('arfb-qr').hidden = false;
