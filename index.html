@@ -16,6 +16,9 @@
   model-viewer { flex:1; width:100%; min-height:62dvh; background:radial-gradient(circle at 50% 40%, #222 0, var(--bg) 70%); --poster-color:transparent; }
   .ar-btn { position:absolute; left:50%; bottom:18px; transform:translateX(-50%); font:500 16px system-ui, sans-serif; background:var(--mint); color:#0b0b0b; border:0; border-radius:999px; padding:13px 22px; cursor:pointer; white-space:nowrap; }
   .hint { text-align:center; color:var(--muted); font-size:13px; padding:10px 16px 18px; }
+  .ar-fallback { display:none; margin:0 auto 14px; text-align:center; color:var(--cream); font-size:15px; }
+  .ar-fallback img { width:132px; height:132px; border-radius:10px; display:block; margin:8px auto 0; }
+  .ar-fallback a { color:var(--mint); }
   .err { color:#f08080; text-align:center; padding:8px 16px; font-size:14px; }
 </style>
 </head>
@@ -31,6 +34,10 @@
     interaction-prompt="auto">
     <button slot="ar-button" class="ar-btn">View in your space</button>
   </model-viewer>
+  <div id="arfb" class="ar-fallback">
+    <div id="arfb-text"></div>
+    <img id="arfb-qr" src="ar-qr.png" alt="QR code to open the AR viewer on your phone" hidden>
+  </div>
   <p id="err" class="err"></p>
   <p class="hint">Shown at real size in AR. Works in Chrome on Android and Safari on iPhone.</p>
 <script>
@@ -38,6 +45,23 @@
   mv.src = 'terp_vault_display.glb?v=3';
   mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=3');
   mv.addEventListener('error', () => { document.getElementById('err').textContent = 'Could not load the model.'; });
+
+  // AR needs a phone. Show a clear fallback when this browser cannot start AR (desktop, or inside an embed).
+  const inFrame = window.top !== window.self;
+  const fullUrl = 'https://themantobeat.github.io/terpvault-ar/?utm_source=embed&utm_medium=ar_link&utm_campaign=ar_cross_section';
+  function showFallback() {
+    const box = document.getElementById('arfb'), txt = document.getElementById('arfb-text');
+    if (mv.canActivateAR) { box.style.display = 'none'; return; }
+    box.style.display = 'block';
+    const touch = matchMedia('(pointer:coarse)').matches;
+    if (touch) {
+      txt.innerHTML = inFrame ? '<a href="' + fullUrl + '" target="_blank" rel="noopener">Open in AR on your table</a>' : 'AR is not available in this browser. Try Chrome (Android) or Safari (iPhone).';
+    } else {
+      txt.textContent = 'To see it on your table, scan this with your phone:';
+      document.getElementById('arfb-qr').hidden = false;
+    }
+  }
+  mv.addEventListener('load', () => setTimeout(showFallback, 300));
 </script>
 </body>
 </html>
