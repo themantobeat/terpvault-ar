@@ -16,6 +16,12 @@
   model-viewer { position:absolute; inset:0; width:100%; height:100%; --poster-color:transparent; }
   @media (max-width:700px) { .ar-btn { font-size:14px !important; padding:11px 18px !important; } }
   model-viewer.in-frame .ar-btn { display:none; }
+  .hs { width:1px; height:1px; pointer-events:none; }
+  /* floor reflection: the viewer's own picture, flipped under the plinth and faded out */
+  #refl { position:absolute; left:0; right:0; top:0; height:0; overflow:hidden; z-index:1; pointer-events:none; opacity:0; transition:opacity .35s;
+    -webkit-mask-image:linear-gradient(to bottom, rgba(0,0,0,.5), rgba(0,0,0,0) 85%); mask-image:linear-gradient(to bottom, rgba(0,0,0,.5), rgba(0,0,0,0) 85%); }
+  #refl.on { opacity:.55; }
+  #refl img { position:absolute; left:0; top:0; width:100%; transform-origin:0 0; filter:blur(1.5px) brightness(.8); }
   .ar-btn { position:absolute; left:50%; bottom:calc(18px + env(safe-area-inset-bottom, 0px)); transform:translateX(-50%); font:500 16px system-ui, sans-serif; background:var(--mint); color:#0b0b0b; border:0; border-radius:999px; padding:13px 22px; cursor:pointer; white-space:nowrap; }
   .hint { position:absolute; z-index:2; left:max(20px, calc((100% - 980px) / 2)); bottom:14px; margin:0; max-width:46%; color:var(--muted); font-size:12px; pointer-events:none; }
   /* desktop: a small 'View in your room' card in the corner, so the model gets the whole page */
@@ -38,12 +44,14 @@
     <h1>SEE INSIDE THE VAULT</h1>
     <p>Spin it, zoom in, or place it on your table.</p>
   </header>
+  <div id="refl" aria-hidden="true"><img id="reflimg" alt=""></div>
   <model-viewer id="mv" alt="TerpVault Pre-Roll and Bud Vault display"
     ar ar-modes="webxr scene-viewer quick-look" ar-scale="fixed" ar-placement="floor"
     camera-controls touch-action="pan-y" max-camera-orbit="auto auto 1.4m" 
-    camera-orbit="-22deg 76deg 0.46m" camera-target="0m 0.095m 0m" min-camera-orbit="auto auto 0.08m" shadow-intensity="1.6" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg?v=18" shadow-softness="0.85"
+    camera-orbit="-22deg 76deg 0.44m" camera-target="0m 0.09m 0m" min-camera-orbit="auto auto 0.08m" shadow-intensity="1.6" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg?v=21" shadow-softness="0.85"
     interaction-prompt="auto">
     <button slot="ar-button" class="ar-btn">View in your space</button>
+    <div slot="hotspot-floor" class="hs" data-position="0m 0m 0m" data-normal="0m 1m 0m"></div>
   </model-viewer>
   <div id="arfb" class="ar-fallback">
     <div id="arfb-text"></div>
@@ -56,10 +64,10 @@
   <p class="hint">Drag to spin, scroll to zoom. AR works in Chrome on Android and Safari on iPhone.</p>
 <script>
   const mv = document.getElementById('mv');
-  mv.src = 'terp_vault_display.glb?v=18';
-  mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=18');
+  mv.src = 'terp_vault_display.glb?v=21';
+  mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=21');
   // small screens: pull back and sit the model lower so the title never covers a lid
-  if (innerWidth < 700) { mv.setAttribute('camera-orbit', '-22deg 76deg 0.70m'); mv.setAttribute('camera-target', '0m 0.112m 0m'); }
+  if (innerWidth < 700) { mv.setAttribute('camera-orbit', '-22deg 76deg 0.70m'); mv.setAttribute('camera-target', '0m 0.105m 0m'); }
   mv.addEventListener('error', () => { document.getElementById('err').textContent = 'Could not load the model.'; });
 
   // AR needs a phone. Show a clear fallback when this browser cannot start AR (desktop, or inside an embed).
@@ -91,6 +99,31 @@
     document.getElementById('arfb-row').hidden = false;
   }
   mv.addEventListener('load', () => setTimeout(showFallback, 300));
+
+  // floor reflection: snapshot the model after the camera settles, then draw it flipped below the plinth's front edge
+  const refl = document.getElementById('refl'), reflimg = document.getElementById('reflimg'), hs = mv.querySelector('.hs');
+  let rt = 0, busy = false, lastUrl = null;
+  async function updateRefl() {
+    if (busy || !mv.loaded) return; busy = true;
+    try {
+      const blob = await mv.toBlob({ mimeType: 'image/png' });
+      const url = URL.createObjectURL(blob);
+      await new Promise((res) => { reflimg.onload = res; reflimg.src = url; });
+      if (lastUrl) URL.revokeObjectURL(lastUrl); lastUrl = url;
+      const box = mv.getBoundingClientRect(), fy = hs.getBoundingClientRect().top - box.top;
+      const h = reflimg.clientWidth ? reflimg.naturalHeight * (reflimg.clientWidth / reflimg.naturalWidth) : box.height;
+      if (fy > 0 && fy < box.height) {
+        refl.style.top = fy + 'px'; refl.style.height = Math.max(0, Math.min(box.height - fy, h * 0.4)) + 'px';
+        reflimg.style.transform = 'translateY(' + fy + 'px) scaleY(-1)';
+        refl.classList.add('on');
+      }
+    } catch (e) { /* reflection is optional */ }
+    busy = false;
+  }
+  function scheduleRefl() { refl.classList.remove('on'); clearTimeout(rt); rt = setTimeout(updateRefl, 300); }
+  mv.addEventListener('camera-change', (e) => { if (e.detail && e.detail.source === 'user-interaction') scheduleRefl(); });
+  mv.addEventListener('load', () => setTimeout(updateRefl, 900));
+  addEventListener('resize', scheduleRefl);
 </script>
 </body>
 </html>
