@@ -9,15 +9,20 @@
   :root { --bg:#0b0b0b; --mint:#7cdcd2; --cream:#f3eee3; --muted:#a9a59c; }
   * { box-sizing: border-box; }
   html, body { margin:0; height:100%; background:var(--bg); color:var(--cream); font-family:system-ui, sans-serif; }
-  body { display:flex; flex-direction:column; min-height:100dvh; }
-  header { padding:18px 16px 6px; text-align:center; }
+  body { position:relative; min-height:100dvh; overflow:hidden; }
+  header { position:absolute; z-index:2; left:0; right:0; top:0; padding:14px 16px 0; text-align:center; pointer-events:none; }
   h1 { color:var(--mint); margin:0; font-size:clamp(24px,6vw,36px); letter-spacing:.02em; }
-  header p { margin:6px 0 0; color:var(--muted); font-size:15px; }
-  model-viewer { flex:1; width:100%; min-height:62dvh; --poster-color:transparent; }
-  .ar-btn { position:absolute; left:50%; bottom:18px; transform:translateX(-50%); font:500 16px system-ui, sans-serif; background:var(--mint); color:#0b0b0b; border:0; border-radius:999px; padding:13px 22px; cursor:pointer; white-space:nowrap; }
-  .hint { text-align:center; color:var(--muted); font-size:13px; padding:10px 16px 18px; }
-  .ar-fallback { display:none; margin:0 auto 14px; text-align:center; color:var(--cream); font-size:15px; }
-  .ar-fallback img { width:132px; height:132px; border-radius:10px; display:block; margin:8px auto 0; }
+  header p { margin:4px 0 0; color:var(--muted); font-size:14px; }
+  model-viewer { position:absolute; inset:0; width:100%; height:100%; --poster-color:transparent; }
+  .ar-btn { position:absolute; left:50%; bottom:calc(18px + env(safe-area-inset-bottom, 0px)); transform:translateX(-50%); font:500 16px system-ui, sans-serif; background:var(--mint); color:#0b0b0b; border:0; border-radius:999px; padding:13px 22px; cursor:pointer; white-space:nowrap; }
+  .hint { position:absolute; z-index:2; left:16px; bottom:12px; margin:0; max-width:46%; color:var(--muted); font-size:12px; pointer-events:none; }
+  /* desktop: a small 'View in your room' card in the corner, so the model gets the whole page */
+  .ar-fallback { display:none; position:absolute; z-index:3; right:16px; bottom:16px; width:236px; padding:12px; border-radius:14px; background:rgba(22,22,22,.86); border:1px solid rgba(243,238,227,.14); backdrop-filter:blur(8px); color:var(--cream); font-size:13px; line-height:1.3; }
+  .ar-fallback .row { display:flex; gap:12px; align-items:center; }
+  .ar-fallback img { width:84px; height:84px; flex:none; border-radius:8px; background:#fff; padding:4px; display:block; }
+  .ar-fallback b { display:block; font-size:14px; margin-bottom:3px; color:var(--cream); }
+  .ar-fallback span { color:var(--muted); }
+  .ar-fallback.link { left:50%; right:auto; transform:translateX(-50%); width:auto; max-width:calc(100% - 32px); text-align:center; padding:12px 18px; border-radius:999px; }
   .ar-fallback a { color:var(--mint); }
   .err { color:#f08080; text-align:center; padding:8px 16px; font-size:14px; }
 </style>
@@ -30,20 +35,23 @@
   <model-viewer id="mv" alt="TerpVault Pre-Roll and Bud Vault display"
     ar ar-modes="webxr scene-viewer quick-look" ar-scale="fixed" ar-placement="floor"
     camera-controls touch-action="pan-y" 
-    camera-orbit="-22deg 76deg 0.40m" camera-target="0m 0.095m 0m" min-camera-orbit="auto auto 0.1m" shadow-intensity="0.9" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg?v=9" shadow-softness="0.6"
+    camera-orbit="-22deg 76deg 0.46m" camera-target="0m 0.095m 0m" min-camera-orbit="auto auto 0.1m" shadow-intensity="0.9" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg?v=10" shadow-softness="0.6"
     interaction-prompt="auto">
     <button slot="ar-button" class="ar-btn">View in your space</button>
   </model-viewer>
   <div id="arfb" class="ar-fallback">
     <div id="arfb-text"></div>
-    <img id="arfb-qr" src="ar-qr.png" alt="QR code to open the AR viewer on your phone" hidden>
+    <div class="row" id="arfb-row" hidden>
+      <img id="arfb-qr" src="ar-qr.png" alt="QR code to open the AR viewer on your phone">
+      <div><b>View in your room</b><span>Scan with your phone camera to see it at real size.</span></div>
+    </div>
   </div>
   <p id="err" class="err"></p>
-  <p class="hint">Shown at real size in AR. Works in Chrome on Android and Safari on iPhone.</p>
+  <p class="hint">Drag to spin, scroll to zoom. AR works in Chrome on Android and Safari on iPhone.</p>
 <script>
   const mv = document.getElementById('mv');
-  mv.src = 'terp_vault_display.glb?v=9';
-  mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=9');
+  mv.src = 'terp_vault_display.glb?v=10';
+  mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=10');
   mv.addEventListener('error', () => { document.getElementById('err').textContent = 'Could not load the model.'; });
 
   // AR needs a phone. Show a clear fallback when this browser cannot start AR (desktop, or inside an embed).
@@ -56,11 +64,11 @@
     // phones: the built-in AR button works on the full page; inside an embed also offer a link that opens the full page, in case AR is blocked in the frame
     if (mv.canActivateAR && !(touch && inFrame)) { box.style.display = 'none'; return; }
     box.style.display = 'block';
+    box.classList.toggle('link', touch);
     if (touch) {
       txt.innerHTML = inFrame ? '<a href="' + fullUrl + '" target="_blank" rel="noopener">Tap to open full page and view in AR on your table</a>' : 'AR is not available in this browser. Try Chrome (Android) or Safari (iPhone).';
     } else {
-      txt.textContent = 'To see it on your table, scan this with your phone:';
-      document.getElementById('arfb-qr').hidden = false;
+      document.getElementById('arfb-row').hidden = false;
     }
   }
   mv.addEventListener('load', () => setTimeout(showFallback, 300));
