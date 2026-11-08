@@ -10,19 +10,19 @@
   * { box-sizing: border-box; }
   html, body { margin:0; height:100%; background:var(--bg); color:var(--cream); font-family:system-ui, sans-serif; }
   body { position:relative; min-height:100dvh; overflow:hidden; }
-  header { position:absolute; z-index:2; left:0; top:0; max-width:min(46%, 420px); padding:18px 20px 0; text-align:left; pointer-events:none; }
-  h1 { color:var(--mint); margin:0; font-size:clamp(20px,3.4vw,30px); line-height:1.1; letter-spacing:.03em; text-wrap:balance; }
-  header p { margin:6px 0 0; color:var(--muted); font-size:14px; line-height:1.35; }
+  header { position:absolute; z-index:2; left:max(20px, calc((100% - 980px) / 2)); top:0; max-width:min(52%, 520px); padding:26px 0 0; text-align:left; pointer-events:none; }
+  h1 { color:var(--mint); margin:0; font-size:clamp(28px,4.6vw,56px); line-height:1.02; letter-spacing:.02em; text-wrap:balance; }
+  header p { margin:10px 0 0; color:#c9c4b8; font-size:clamp(15px,1.6vw,19px); line-height:1.35; }
   model-viewer { position:absolute; inset:0; width:100%; height:100%; --poster-color:transparent; }
   @media (max-width:700px) { .ar-btn { font-size:14px !important; padding:11px 18px !important; } }
   model-viewer.in-frame .ar-btn { display:none; }
   .ar-btn { position:absolute; left:50%; bottom:calc(18px + env(safe-area-inset-bottom, 0px)); transform:translateX(-50%); font:500 16px system-ui, sans-serif; background:var(--mint); color:#0b0b0b; border:0; border-radius:999px; padding:13px 22px; cursor:pointer; white-space:nowrap; }
-  .hint { position:absolute; z-index:2; left:16px; bottom:12px; margin:0; max-width:46%; color:var(--muted); font-size:12px; pointer-events:none; }
+  .hint { position:absolute; z-index:2; left:max(20px, calc((100% - 980px) / 2)); bottom:14px; margin:0; max-width:46%; color:var(--muted); font-size:12px; pointer-events:none; }
   /* desktop: a small 'View in your room' card in the corner, so the model gets the whole page */
-  .ar-fallback { display:none; position:absolute; z-index:3; right:16px; bottom:16px; width:236px; padding:12px; border-radius:14px; background:rgba(22,22,22,.86); border:1px solid rgba(243,238,227,.14); backdrop-filter:blur(8px); color:var(--cream); font-size:13px; line-height:1.3; }
+  .ar-fallback { display:none; position:absolute; z-index:3; right:max(16px, calc((100% - 980px) / 2)); bottom:20px; width:236px; padding:12px; border-radius:14px; background:rgba(22,22,22,.86); border:1px solid rgba(243,238,227,.14); backdrop-filter:blur(8px); color:var(--cream); font-size:13px; line-height:1.3; }
   .ar-fallback .row { display:flex; gap:12px; align-items:center; }
   .ar-fallback .row[hidden] { display:none; }
-  @media (max-width:700px) { .hint { display:none; } header { max-width:86%; } }
+  @media (max-width:700px) { .hint { display:none; } header { max-width:calc(100% - 40px); left:20px; padding-top:18px; } h1 { font-size:clamp(26px,8vw,40px); } }
   .ar-fallback img { width:84px; height:84px; flex:none; border-radius:8px; background:#fff; padding:4px; display:block; }
   .ar-fallback b { display:block; font-size:14px; margin-bottom:3px; color:var(--cream); }
   .ar-fallback span { color:var(--muted); }
@@ -41,7 +41,7 @@
   <model-viewer id="mv" alt="TerpVault Pre-Roll and Bud Vault display"
     ar ar-modes="webxr scene-viewer quick-look" ar-scale="fixed" ar-placement="floor"
     camera-controls touch-action="pan-y" max-camera-orbit="auto auto 1.4m" 
-    camera-orbit="-22deg 76deg 0.46m" camera-target="0m 0.095m 0m" min-camera-orbit="auto auto 0.08m" shadow-intensity="0.9" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg?v=17" shadow-softness="0.6"
+    camera-orbit="-22deg 76deg 0.46m" camera-target="0m 0.095m 0m" min-camera-orbit="auto auto 0.08m" shadow-intensity="1.6" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg?v=18" shadow-softness="0.85"
     interaction-prompt="auto">
     <button slot="ar-button" class="ar-btn">View in your space</button>
   </model-viewer>
@@ -56,8 +56,8 @@
   <p class="hint">Drag to spin, scroll to zoom. AR works in Chrome on Android and Safari on iPhone.</p>
 <script>
   const mv = document.getElementById('mv');
-  mv.src = 'terp_vault_display.glb?v=17';
-  mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=17');
+  mv.src = 'terp_vault_display.glb?v=18';
+  mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=18');
   // small screens: pull back and sit the model lower so the title never covers a lid
   if (innerWidth < 700) { mv.setAttribute('camera-orbit', '-22deg 76deg 0.70m'); mv.setAttribute('camera-target', '0m 0.112m 0m'); }
   mv.addEventListener('error', () => { document.getElementById('err').textContent = 'Could not load the model.'; });
