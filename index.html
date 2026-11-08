@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TerpVault AR</title>
+<script type="module" src="model-viewer.min.js"></script>
+<style>
+  :root { --bg:#0b0b0b; --mint:#7cdcd2; --cream:#f3eee3; --muted:#a9a59c; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; height:100%; background:var(--bg); color:var(--cream); font-family:system-ui, sans-serif; }
+  body { display:flex; flex-direction:column; min-height:100dvh; }
+  header { padding:18px 16px 6px; text-align:center; }
+  h1 { color:var(--mint); margin:0; font-size:clamp(24px,6vw,36px); letter-spacing:.02em; }
+  header p { margin:6px 0 0; color:var(--muted); font-size:15px; }
+  model-viewer { flex:1; width:100%; min-height:62dvh; background:radial-gradient(circle at 50% 40%, #222 0, var(--bg) 70%); --poster-color:transparent; }
+  .ar-btn { position:absolute; left:50%; bottom:18px; transform:translateX(-50%); font:500 16px system-ui, sans-serif; background:var(--mint); color:#0b0b0b; border:0; border-radius:999px; padding:13px 22px; cursor:pointer; white-space:nowrap; }
+  .hint { text-align:center; color:var(--muted); font-size:13px; padding:10px 16px 18px; }
+  .err { color:#f08080; text-align:center; padding:8px 16px; font-size:14px; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>SEE INSIDE THE VAULT</h1>
+    <p>Spin it, zoom in, or place it on your table.</p>
+  </header>
+  <model-viewer id="mv" alt="TerpVault Pre-Roll and Bud Vault display"
+    ar ar-modes="webxr scene-viewer quick-look" ar-scale="fixed" ar-placement="floor"
+    camera-controls touch-action="pan-y" auto-rotate auto-rotate-delay="2500" rotation-per-second="14deg"
+    camera-orbit="0deg 78deg auto" shadow-intensity="0.9" exposure="0.85" tone-mapping="aces" environment-image="neutral" shadow-softness="0.6"
+    interaction-prompt="auto">
+    <button slot="ar-button" class="ar-btn">View in your space</button>
+  </model-viewer>
+  <p id="err" class="err"></p>
+  <p class="hint">Shown at real size in AR. Works in Chrome on Android and Safari on iPhone.</p>
+<script>
+  const mv = document.getElementById('mv');
+  mv.src = 'terp_vault_display.glb';
+  mv.setAttribute('ios-src', 'terp_vault_display.usdz');
+  mv.addEventListener('error', () => { document.getElementById('err').textContent = 'Could not load the model.'; });
+</script>
+</body>
+</html>
