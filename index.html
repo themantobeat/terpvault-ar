@@ -75,7 +75,7 @@
     const asp = innerWidth / innerHeight, r = Math.max(0.52, 0.62 / asp);
     mv.setAttribute('field-of-view', '30deg'); mv.setAttribute('camera-orbit', '-22deg 76deg ' + r + 'm'); mv.setAttribute('camera-target', '0m 0.095m 0m');
   }
-  if (innerWidth < 700) { const a = innerWidth / innerHeight, r = Math.max(0.24, 0.27 / a); mv.setAttribute('field-of-view', '30deg'); mv.setAttribute('camera-orbit', '-22deg 76deg ' + r.toFixed(3) + 'm'); mv.setAttribute('camera-target', '0m ' + (a < 0.8 ? 0.115 : 0.105) + 'm 0m'); }
+  if (innerWidth < 700) { const a = innerWidth / innerHeight, r = Math.max(0.2, 0.225 / a); mv.setAttribute('field-of-view', '30deg'); mv.setAttribute('camera-orbit', '-22deg 76deg ' + r.toFixed(3) + 'm'); mv.setAttribute('camera-target', '0m ' + (a < 0.8 ? 0.115 : 0.105) + 'm 0m'); }
   mv.addEventListener('error', () => { document.getElementById('err').textContent = 'Could not load the model.'; });
 
   // AR needs a phone. Show a clear fallback when this browser cannot start AR (desktop, or inside an embed).
