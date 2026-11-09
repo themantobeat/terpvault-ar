@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TerpVault AR</title>
 <link rel="modulepreload" href="model-viewer.min.js">
-<link rel="preload" href="terp_vault_display.glb?v=38" as="fetch" crossorigin="anonymous">
-<link rel="preload" href="studio_env.jpg?v=38" as="image">
+<link rel="preload" href="terp_vault_display.glb?v=39" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="studio_env.jpg?v=39" as="image">
 <script type="module" src="model-viewer.min.js"></script>
 <style>
   :root { --bg:#0b0b0b; --mint:#7cdcd2; --cream:#f3eee3; --muted:#a9a59c; }
@@ -23,11 +23,6 @@
   .gutter { position:absolute; z-index:4; top:0; bottom:0; width:clamp(28px, 9vw, 120px); touch-action:pan-y; }
   .gutter.l { left:0; } .gutter.r { right:0; }
   .hs { width:1px; height:1px; pointer-events:none; }
-  /* floor reflection: the viewer's own picture, flipped under the plinth and faded out */
-  #refl { position:absolute; left:0; right:0; top:0; height:0; overflow:hidden; z-index:1; pointer-events:none; opacity:0; transition:opacity .35s;
-    -webkit-mask-image:linear-gradient(to bottom, rgba(0,0,0,.5), rgba(0,0,0,0) 85%); mask-image:linear-gradient(to bottom, rgba(0,0,0,.5), rgba(0,0,0,0) 85%); }
-  #refl.on { opacity:.55; }
-  #refl img { position:absolute; left:0; top:0; width:100%; transform-origin:0 0; filter:blur(1.5px) brightness(.8); }
   .ar-btn { position:absolute; left:50%; bottom:calc(18px + env(safe-area-inset-bottom, 0px)); transform:translateX(-50%); font:500 16px system-ui, sans-serif; background:var(--mint); color:#0b0b0b; border:0; border-radius:999px; padding:13px 22px; cursor:pointer; white-space:nowrap; }
   .hint { position:absolute; z-index:2; left:max(20px, calc((100% - 980px) / 2)); bottom:14px; margin:0; max-width:46%; color:var(--muted); font-size:12px; pointer-events:none; }
   /* desktop: a small 'View in your room' card in the corner, so the model gets the whole page */
@@ -53,11 +48,10 @@
     <p>Spin it, zoom in, or place it on your table.</p>
   </header>
   <div class="gutter l" aria-hidden="true"></div><div class="gutter r" aria-hidden="true"></div>
-  <div id="refl" aria-hidden="true"><img id="reflimg" alt=""></div>
   <model-viewer id="mv" alt="TerpVault Pre-Roll and Bud Vault display"
     ar ar-modes="webxr scene-viewer quick-look" ar-scale="fixed" ar-placement="floor"
     camera-controls touch-action="pan-y" max-camera-orbit="auto auto 1.4m" 
-    camera-orbit="-22deg 76deg 0.38m" camera-target="0m 0.1m 0m" min-camera-orbit="auto auto 0.08m" shadow-intensity="1.6" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg?v=38" shadow-softness="0.85"
+    camera-orbit="-22deg 76deg 0.38m" camera-target="0m 0.1m 0m" min-camera-orbit="auto auto 0.08m" shadow-intensity="1.6" exposure="1.7" tone-mapping="neutral" environment-image="studio_env.jpg?v=39" shadow-softness="0.85"
     interaction-prompt="auto">
     <button slot="ar-button" class="ar-btn">View in your space</button>
     <div slot="hotspot-floor" class="hs" data-position="0m 0m 0m" data-normal="0m 1m 0m"></div>
@@ -73,8 +67,8 @@
   <p class="hint">Drag to spin, scroll to zoom. AR works in Chrome on Android and Safari on iPhone.</p>
 <script>
   const mv = document.getElementById('mv');
-  mv.src = 'terp_vault_display.glb?v=38';
-  mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=38');
+  mv.src = 'terp_vault_display.glb?v=39';
+  mv.setAttribute('ios-src', 'terp_vault_display.usdz?v=39');
   // small screens: pull back and sit the model lower so the title never covers a lid
   // wide, short frames (like the Wix section) start closer so the vaults fill the frame
   if (innerWidth >= 700) {
@@ -114,30 +108,6 @@
   }
   mv.addEventListener('load', () => setTimeout(showFallback, 300));
 
-  // floor reflection: snapshot the model after the camera settles, then draw it flipped below the plinth's front edge
-  const refl = document.getElementById('refl'), reflimg = document.getElementById('reflimg'), hs = mv.querySelector('.hs');
-  let rt = 0, busy = false, lastUrl = null;
-  async function updateRefl() {
-    if (busy || !mv.loaded) return; busy = true;
-    try {
-      const blob = await mv.toBlob({ mimeType: 'image/png' });
-      const url = URL.createObjectURL(blob);
-      await new Promise((res) => { reflimg.onload = res; reflimg.src = url; });
-      if (lastUrl) URL.revokeObjectURL(lastUrl); lastUrl = url;
-      const box = mv.getBoundingClientRect(), fy = hs.getBoundingClientRect().top - box.top;
-      const h = reflimg.clientWidth ? reflimg.naturalHeight * (reflimg.clientWidth / reflimg.naturalWidth) : box.height;
-      if (fy > 0 && fy < box.height) {
-        refl.style.top = fy + 'px'; refl.style.height = Math.max(0, Math.min(box.height - fy, h * 0.4)) + 'px';
-        reflimg.style.transform = 'translateY(' + fy + 'px) scaleY(-1)';
-        refl.classList.add('on');
-      }
-    } catch (e) { /* reflection is optional */ }
-    busy = false;
-  }
-  function scheduleRefl() { refl.classList.remove('on'); clearTimeout(rt); rt = setTimeout(updateRefl, 300); }
-  mv.addEventListener('camera-change', (e) => { if (e.detail && e.detail.source === 'user-interaction') scheduleRefl(); });
-  mv.addEventListener('load', () => setTimeout(updateRefl, 900));
-  addEventListener('resize', scheduleRefl);
 </script>
 </body>
 </html>
