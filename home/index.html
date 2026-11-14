@@ -200,6 +200,7 @@ html.wix .nav,html.wix #tv-login{display:none!important}
 </style>
 <link rel="preload" href="s1.js?v=1" as="script" fetchpriority="high">
 <link rel="preload" href="s2.js?v=11" as="script">
+<link rel="preload" href="img6.jpg" as="image">
 </head>
 <body>
 <div id="bar"></div>
@@ -375,8 +376,16 @@ html.wix .nav,html.wix #tv-login{display:none!important}
 </script>
 <img id="boveda-pack-photo" hidden alt="" src="img6.jpg">
 <script defer src="s1.js?v=1"></script>
-<script defer src="s2.js?v=11"></script>
 <script>
+  const packetPhoto = document.getElementById("boveda-pack-photo");
+  const packetReady = packetPhoto.decode ? packetPhoto.decode().catch(() => {}) :
+    new Promise(resolve => {
+      if (packetPhoto.complete) resolve();
+      else {
+        packetPhoto.addEventListener("load", resolve, {once:true});
+        packetPhoto.addEventListener("error", resolve, {once:true});
+      }
+    });
   const budTrack = document.getElementById("bud-track");
   function loadVaultScript(src) {
     return new Promise((resolve, reject) => {
@@ -387,9 +396,19 @@ html.wix .nav,html.wix #tv-login{display:none!important}
       document.body.append(script);
     });
   }
+  document.addEventListener("DOMContentLoaded", async () => {
+    await packetReady;
+    try {
+      await loadVaultScript("s2.js?v=11");
+    } catch {
+      document.getElementById("err").textContent =
+        "The Pre-Roll Vault animation could not load. Refresh to try again.";
+    }
+  }, {once:true});
   async function loadBudVault() {
     try {
       await loadVaultScript("s3.js?v=1");
+      await packetReady;
       await loadVaultScript("s4.js?v=8");
     } catch {
       document.getElementById("bud-err").textContent =
