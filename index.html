@@ -44,7 +44,7 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-4RDYHP8B6Y");</script>
 </head>
 <body>
-  <a class="back" id="backlink" href="https://www.terpvault.com/">&larr; Back to TerpVault</a>
+  <a class="back" id="backlink" href="#" hidden>&larr; Back to TerpVault</a>
   <header>
     <h1>SEE INSIDE THE VAULT</h1>
     <p>Spin it, zoom in, or place it on your table.</p>
@@ -111,6 +111,6 @@
   mv.addEventListener('load', () => setTimeout(showFallback, 300));
 
 </script>
-<script>document.getElementById('backlink').addEventListener('click',function(e){if(history.length>1){e.preventDefault();history.back();}});</script>
+<script>var bl=document.getElementById('backlink');if(history.length>1){bl.hidden=false;bl.addEventListener('click',function(e){e.preventDefault();history.back();});}</script>
 </body>
 </html>
