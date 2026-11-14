@@ -167,6 +167,7 @@
     .vid-cap { text-align:center; }
   }
   @media (min-width:801px) { html { scroll-snap-type:y proximity; } #track { scroll-snap-align:start; } }
+html.wix .nav,html.wix #tv-login{display:none!important}
 </style>
 <style>
 .scrollcue{display:none}
@@ -388,6 +389,7 @@ document.getElementById('thanksback').addEventListener('click',function(){t.clas
 t.addEventListener('click',function(e){if(e.target===t)t.classList.remove('on');});
 })();
 </script>
+<script>if(/[?&]wix=1/.test(location.search))document.documentElement.classList.add('wix');</script>
 <script>document.getElementById('tv-login').addEventListener('click',function(e){e.preventDefault();window.parent.postMessage({tv:'login'},'*');});</script>
 </body>
 </html>
