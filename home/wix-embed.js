@@ -1,7 +1,6 @@
 /* TerpVault home page beta: shows the hosted home page full screen inside the Wix page. */
 (function () {
   var SRC = 'https://themantobeat.github.io/terpvault-ar/home/?v=1';
-  if (customElements.get('tv-home')) return;
   class TvHome extends HTMLElement {
     connectedCallback() {
       if (this._f) return;
@@ -20,5 +19,7 @@
       document.documentElement.style.overflow = this._o || '';
     }
   }
-  customElements.define('tv-home', TvHome);
+  ['tv-home', 'wix-default-custom-element'].forEach(function (t) {
+    if (!customElements.get(t)) customElements.define(t, class extends TvHome {});
+  });
 })();
