@@ -15,7 +15,7 @@
       f.src = SRC;
       f.title = 'TerpVault';
       f.setAttribute('allow', 'xr-spatial-tracking; fullscreen');
-      var place = function () { var t = headerBottom(); f.style.cssText = 'position:fixed;left:0;top:' + t + 'px;width:100%;height:calc(100vh - ' + t + 'px);height:calc(100dvh - ' + t + 'px);border:0;margin:0;padding:0;z-index:9000;background:#0b0c0c;display:block'; };
+      var place = function () { var t = headerBottom(); f.style.cssText = 'position:fixed;left:0;top:' + t + 'px;width:100%;height:calc(100vh - ' + t + 'px);height:calc(100dvh - ' + t + 'px);border:0;margin:0;padding:0;z-index:50;background:#0b0c0c;display:block'; };
       place(); window.addEventListener('resize', place); this._p = place;
       document.body.appendChild(f);
       this._f = f;
