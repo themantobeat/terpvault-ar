@@ -3846,7 +3846,7 @@ hn.render(_n,xi),H0(hero?0:s)}var B0=document.getElementById("annoLines"),Bh=(s,
     scrollDistance<.70?.46+(scrollDistance-.46)*2/3:scrollDistance-.08;
   if(distance<.10)return distance;
   if(distance<.18)return .10+2*(distance-.10);
-  return distance+.08;}window.addEventListener("scroll",()=>{os=dc()},{passive:!0});window.__setProgress=s=>{os=mn=s};function Xh(s){mn+=(os-mn)*Math.max(tvE(.19,"a"),Math.min(.5,Math.abs(os-mn)*4)),Math.abs(os-mn)<5e-4&&(mn=os);if(k0.getBoundingClientRect().bottom>0&&k0.getBoundingClientRect().top<innerHeight)
+  return distance+.08;}window.addEventListener("scroll",()=>{os=dc()},{passive:!0});window.__setProgress=s=>{os=mn=s};function Xh(s){mn+=Math.max(-(mn<.12?.002:1),Math.min(mn<.12?.002:1,(os-mn)*Math.max(tvE(.19,"a"),Math.min(.5,Math.abs(os-mn)*4)))),Math.abs(os-mn)<5e-4&&(mn=os);if(k0.getBoundingClientRect().bottom>0&&k0.getBoundingClientRect().top<innerHeight)
   Gh(.10*Xe(mn,.070,.10)+Math.max(0,mn-.10),s);
 let e=Fh.findIndex((t,n)=>mn>=t&&mn<(Fh[n+1]??1.01));hc.forEach((t,n)=>t.classList.toggle("on",n===Math.min(hc.length-1,e<0?hc.length-1:e))),V0.style.transform=`scaleX(${Xe(mn,.070,1)})`,document.body.classList.toggle("past",dc()>=.999),requestAnimationFrame(Xh)}os=mn=dc();requestAnimationFrame(Xh);})();
 /*! Bundled license information:
