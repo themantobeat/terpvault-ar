@@ -198,6 +198,8 @@ html.wix .nav,html.wix #tv-login{display:none!important}
 @media (max-width:700px){.qn{min-height:150px}.qn-h{font-size:30px}.qn-k{font-size:11px}}
 @media (max-width:420px){.qn-l{padding:10px}.qn-r{padding:14px;gap:4px}.qn-h{font-size:20px;letter-spacing:1px}.qn-k{font-size:9px;letter-spacing:.26em}.qn-bar{width:50px;margin:3px 0 2px}}
 </style>
+<link rel="preload" href="s1.js?v=1" as="script" fetchpriority="high">
+<link rel="preload" href="s2.js?v=11" as="script">
 </head>
 <body>
 <div id="bar"></div>
@@ -208,7 +210,7 @@ html.wix .nav,html.wix #tv-login{display:none!important}
 
 <main>
 <section id="hero" aria-label="TerpVault introduction">
-<img id="hero-product" alt="Inferno Pre-Roll Vault and Bud Vault set">
+<img id="hero-product" src="img4.webp" fetchpriority="high" alt="Inferno Pre-Roll Vault and Bud Vault set">
     <div class="step on hero-copy">
       <h1>Stash Jar Humidors</h1>
       <p>Humidors for flower and pre-rolls, with built-in humidity monitoring.</p>
@@ -370,14 +372,41 @@ html.wix .nav,html.wix #tv-login{display:none!important}
   window.addEventListener("scroll", updateHeroParallax, {passive:true});
   window.addEventListener("pageshow", updateHeroParallax);
   window.addEventListener("resize", updateHeroParallax);
-  document.getElementById("hero-product").src =
-    document.querySelector('img[alt="Orange Inferno Pre-Roll Vault and Bud Vault with NFC totems"]').src;
 </script>
 <img id="boveda-pack-photo" hidden alt="" src="img6.jpg">
-<script src="s1.js?v=1"></script>
-<script src="s2.js?v=11"></script>
-<script src="s3.js?v=1"></script>
-<script src="s4.js?v=8"></script>
+<script defer src="s1.js?v=1"></script>
+<script defer src="s2.js?v=11"></script>
+<script>
+  const budTrack = document.getElementById("bud-track");
+  function loadVaultScript(src) {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = resolve;
+      script.onerror = reject;
+      document.body.append(script);
+    });
+  }
+  async function loadBudVault() {
+    try {
+      await loadVaultScript("s3.js?v=1");
+      await loadVaultScript("s4.js?v=8");
+    } catch {
+      document.getElementById("bud-err").textContent =
+        "The Bud Vault animation could not load. Refresh to try again.";
+    }
+  }
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      observer.disconnect();
+      loadBudVault();
+    }, {rootMargin:"240% 0px"});
+    observer.observe(budTrack);
+  } else {
+    window.addEventListener("load", loadBudVault, {once:true});
+  }
+</script>
 <div class="scrollcue" id="scrollcue" aria-hidden="true">Scroll<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v11M3.5 8.5 8 13l4.500-4.500"/></svg></div>
 <script>(function(){var c=document.getElementById('scrollcue'),e=document.getElementById('shop');function u(){c.classList.toggle('off',!e||e.getBoundingClientRect().top<innerHeight*1.2)}addEventListener('scroll',u,{passive:true});addEventListener('resize',u);u()})();</script>
 <div class="thanks" id="thanks" role="dialog" aria-modal="true" aria-labelledby="thanksh"><div class="card"><h3 id="thanksh">Thanks for Testing!</h3><p>Checkout is turned off on the beta, so nothing was bought.</p><button type="button" id="thanksback">Back to home beta</button></div></div>
