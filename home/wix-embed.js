@@ -20,6 +20,12 @@
       document.documentElement.style.overflow = this._o || '';
     }
   }
+  /* Log In bridge: the hosted page asks this Wix page to open its own login bar (Google sign-in pop-up). */
+  window.addEventListener('message', function (e) {
+    if (e.origin !== 'https://themantobeat.github.io' || !e.data || e.data.tv !== 'login') return;
+    var b = document.querySelector('.wixui-login-social-bar, [data-testid="login-bar"]');
+    if (b) b.click();
+  });
   ['tv-home', 'wix-default-custom-element'].forEach(function (t) {
     if (!customElements.get(t)) customElements.define(t, class extends TvHome {});
   });
