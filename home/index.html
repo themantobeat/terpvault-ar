@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>TerpVault home page mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#0b0b0b; --mint:#7cdcd2; --teal:#63b8af; --cream:#f3eee3; --muted:#a9a59c; --brown:#5a4a3f; }
+  * { box-sizing:border-box; }
+  html, body { margin:0; background:var(--bg); color:var(--cream); font-family:Jost, system-ui, sans-serif; }
+  h1, h2, h3 { font-family:Anton, Impact, "Arial Narrow Bold", sans-serif; font-weight:400; letter-spacing:.02em; margin:0; text-transform:uppercase; }
+  a { color:inherit; text-decoration:none; }
+  .nav { position:fixed; inset:0 0 auto 0; z-index:20; display:flex; align-items:center; justify-content:space-between; padding:14px clamp(16px,4vw,48px);
+         background:linear-gradient(#0b0b0bee, #0b0b0b00); }
+  .logo { font-family:Anton, Impact, sans-serif; font-size:24px; letter-spacing:.06em; color:var(--mint); }
+  .nav nav { display:flex; gap:clamp(12px,2.4vw,30px); font-size:15px; color:var(--cream); align-items:center; }
+  .nav nav a.hide { display:none; } @media (min-width:720px) { .nav nav a.hide { display:inline; } }
+  .btn { display:inline-block; background:var(--mint); color:#0b0b0b; font-weight:600; border-radius:999px; padding:12px 24px; font-size:16px; }
+  .btn.ghost { background:transparent; color:var(--mint); border:1.5px solid var(--mint); }
+  button.btn { font-family:inherit; border:0; }
+  button.btn.ghost { border:1.5px solid var(--mint); }
+  button.btn:disabled { opacity:.68; }
+  #shop, #wholesale { scroll-margin-top:64px; }
+  .step:not(.on) { visibility:hidden; }
+  #track .step { transition:opacity .24s ease-out, transform .24s ease-out, visibility 0s linear .24s; }
+  #track .step.on { transition-delay:0s; }
+  .tag { position:fixed; z-index:30; left:50%; bottom:10px; transform:translateX(-50%); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#0b0b0b; background:var(--mint); padding:4px 10px; border-radius:999px; opacity:.85; }
+  #bar { position:fixed; z-index:25; top:0; left:0; right:0; height:3px; background:var(--mint); transform-origin:0 50%; transform:scaleX(0); }
+
+  #track { position:relative; height:1327.6vh; }
+  .sticky { position:sticky; top:0; height:100vh; height:100dvh; overflow:hidden;
+            background:radial-gradient(circle at 62% 46%, #1d2423 0, #111 38%, var(--bg) 72%); }
+  :is(#stage, #bud-stage) { position:absolute; inset:0; width:100%; height:100%; display:block; opacity:0; transition:opacity .6s; }
+  .loaded :is(#stage, #bud-stage) { opacity:1; }
+  .step { position:absolute; left:clamp(18px,6vw,90px); top:50%; width:min(440px, 86vw); transform:translateY(-40%); opacity:0; pointer-events:none;
+          transition:opacity .45s, transform .45s; }
+  .step.on { opacity:1; transform:translateY(-50%); pointer-events:auto; }
+  .step .k { color:var(--teal); font-size:13px; letter-spacing:.2em; text-transform:uppercase; font-weight:600; margin-bottom:10px; }
+  .step h1 { font-size:clamp(54px,9vw,120px); line-height:.95; color:var(--mint); }
+  .step h2 { font-size:clamp(40px,6vw,76px); line-height:1; color:var(--mint); }
+  .step p { font-size:clamp(16px,1.5vw,19px); line-height:1.5; color:var(--cream); margin:16px 0 0; max-width:36ch; }
+  .step .row { display:flex; gap:12px; margin-top:22px; flex-wrap:wrap; }
+  .cue { position:absolute; left:50%; bottom:44px; transform:translateX(-50%); color:var(--muted); font-size:13px; letter-spacing:.2em; text-transform:uppercase; transition:opacity .4s; }
+  .cue::after { content:""; display:block; width:1px; height:34px; margin:8px auto 0; background:linear-gradient(var(--mint), transparent); animation:cue 1.6s infinite; }
+  @keyframes cue { 0% { transform:scaleY(0); transform-origin:top; } 60% { transform:scaleY(1); transform-origin:top; } 100% { opacity:0; } }
+  @media (max-width:800px) {
+    .step { top:auto; bottom:84px; transform:translateY(12px); left:18px; }
+    .step.on { transform:none; }
+    .step p { text-shadow:0 1px 12px #000; }
+    .sticky { background:radial-gradient(circle at 50% 38%, #1d2423 0, #111 40%, var(--bg) 75%); }
+    .cue { display:none; }
+  }
+  :is(#annoLines, #bud-annoLines) { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+  :is(#annoLines, #bud-annoLines) line { stroke:var(--mint); stroke-width:1.5; opacity:0; }
+  :is(#annoLines, #bud-annoLines) circle { fill:var(--mint); stroke:#0b0b0b; stroke-width:1.5; opacity:0; }
+  .anno { position:absolute; left:0; top:0; opacity:0; pointer-events:none; background:#0b0b0bd9; border:1px solid #7cdcd255; border-left:3px solid var(--mint);
+          border-radius:4px 10px 10px 4px; padding:9px 14px 10px; white-space:nowrap; will-change:transform; }
+  .anno b { display:block; font-family:Anton, Impact, sans-serif; font-weight:400; letter-spacing:.04em; text-transform:uppercase; color:var(--mint); font-size:clamp(15px,1.4vw,20px); }
+  .anno span { display:block; color:var(--cream); font-size:clamp(12px,1.05vw,15px); margin-top:2px; }
+  :is(#err, #bud-err) { position:absolute; top:80px; left:0; right:0; text-align:center; color:#f08080; font-size:14px; }
+
+  section.after { padding:clamp(48px,8vw,110px) clamp(18px,6vw,90px); }
+  .after h2 { font-size:clamp(36px,5vw,64px); color:var(--mint); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:22px; margin-top:34px; }
+  .card { background:#151515; border:1px solid #262626; border-radius:18px; padding:26px; }
+  .card .ph { display:block; width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px; background:#000; }
+  img.wide { display:block; width:100%; border-radius:18px; margin-top:28px; background:#000; }
+  .after.split { padding-top:0; }
+  .after.split { display:grid; grid-template-columns:1fr; gap:24px; align-items:center; }
+  .after.split p { color:var(--muted); font-size:18px; line-height:1.5; max-width:38ch; }
+  .after.split img.wide { margin-top:0; }
+  @media (min-width:900px) { .after.split { grid-template-columns:1fr 1.5fr; } }
+  .card .special-edition-photo { object-fit:contain; padding:9.5%; }
+  .product-photo { aspect-ratio:1; overflow:hidden; border-radius:12px; background:#000; }
+  .product-photo .ph { transform:translateY(var(--photo-offset)) scale(var(--photo-scale)); border-radius:0; }
+
+  .card h3 { font-size:28px; margin-top:18px; color:var(--cream); }
+  .card p { color:var(--muted); line-height:1.5; margin:8px 0 18px; }
+  .card .features { color:var(--muted); line-height:1.5; margin:8px 0 18px; padding-inline-start:1.25em; }
+  .card .features li + li { margin-top:4px; }
+  .card .features li::marker { color:var(--mint); }
+  .band { background:var(--teal); color:#0b0b0b; display:flex; flex-wrap:wrap; gap:18px; align-items:center; justify-content:space-between; padding:34px clamp(18px,6vw,90px); }
+  .band h2 { font-size:clamp(28px,4vw,48px); color:#0b0b0b; }
+  .band .btn { background:#0b0b0b; color:var(--mint); }
+  footer { padding:34px clamp(18px,6vw,90px) 70px; color:var(--muted); font-size:14px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+
+  #bud-track { position:relative; height:780vh; }
+  #bud-track .sticky { background:radial-gradient(circle at 38% 46%, #1d2423 0, #111 38%, var(--bg) 72%); }
+  #bud-track .step h2 { font-size:clamp(44px,7vw,96px); line-height:.95; }
+  #bud-track .step .btn { margin-top:22px; }
+  #bud-vault-product { scroll-margin-top:76px; }
+  @media (min-width:801px) {
+    #bud-track .step { left:56%; right:auto; width:min(540px,41vw); }
+    #bud-track .step:nth-last-child(2) { top:40%; }
+    #bud-track .step h2 { font-size:clamp(44px,6vw,84px); overflow-wrap:anywhere; }
+  }
+  @media (max-width:800px) {
+    #bud-track .sticky { background:radial-gradient(circle at 50% 38%, #1d2423 0, #111 40%, var(--bg) 75%); }
+  }
+
+  .model-view { position:absolute; inset:0; overflow:hidden; }
+  @media (min-width:801px) {
+    #track .step { left:calc(clamp(18px,6vw,90px) + 3vw); width:min(440px, 36vw); }
+    #track .step h1 { font-size:clamp(54px,8vw,120px); }
+  }
+  @media (max-width:800px) {
+    #track .step, #bud-track .step { top:auto; bottom:42px; left:18px; right:18px; width:auto; max-height:42%; overflow-y:auto; }
+    #track .step h1 { font-size:clamp(37px,11vw,64px); }
+    #track .step h2, #bud-track .step h2 { font-size:clamp(30px,8vw,48px); }
+    .step p { margin-top:10px; }
+    .step .row { margin-top:12px; gap:8px; }
+    .step .btn { padding:9px 16px; font-size:14px; }
+    #bud-track .step .btn { margin-top:12px; }
+  }
+
+  #hero-product {
+    position:absolute; top:9%; left:46%; width:47%; height:79%;
+    object-fit:contain; pointer-events:none;
+  }
+  #hero { position:relative; height:100vh; height:100dvh; overflow:hidden; background:radial-gradient(circle at 62% 46%, #1d2423, #111 45%, var(--bg) 75%); }
+  #hero-product { transform:translateY(var(--hero-drift,0px)); }
+  #hero .hero-copy { width:min(480px,38vw); }
+  #hero .hero-copy h1 { font-size:clamp(54px,8vw,120px); }
+  @media (prefers-reduced-motion:reduce) {
+    #hero-product { transform:none; }
+  }
+  @media (max-width:800px) {
+    #hero-product { top:8%; left:10%; width:80%; height:55%; }
+    #hero .hero-copy { width:auto; right:18px; bottom:42px; }
+    #hero .hero-copy h1 { font-size:clamp(37px,11vw,64px); }
+  }
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<header class="nav">
+  <a class="logo" href="#">TERP VAULT</a>
+  <nav><a class="hide" href="#shop">Shop</a><a class="hide" href="#track">How it works</a><a class="hide" href="#wholesale">Wholesale</a><a class="btn" href="#shop" style="padding:9px 18px;font-size:14px">Shop Vaults</a></nav>
+</header>
+
+<main>
+<section id="hero" aria-label="TerpVault introduction">
+<img id="hero-product" alt="Inferno Pre-Roll Vault and Bud Vault set">
+    <div class="step on hero-copy">
+      <div class="k">Stash jar humidors</div>
+      <h1>TerpVault</h1>
+      <p>Humidors for flower and pre-rolls, with built-in humidity monitoring.</p>
+      <div class="row"><a class="btn" href="#shop">Shop Vaults</a></div>
+    </div>
+</section>
+<section id="track" aria-label="Pre-Roll Vault demonstration">
+  <div class="sticky">
+    <div class="model-view">
+    <canvas id="stage"></canvas>
+    <p id="err"></p>
+    <svg id="annoLines"></svg>
+    <div class="anno" id="a-boveda"><b>2x Boveda 58% included</b><span>Lasts up to 3 months</span></div>
+    <div class="anno" id="a-joints"><b>Holds 10 king size joints</b><span>Each in its own well</span></div>
+    <div class="anno" id="a-rings"><b>TPU O-rings</b><span>2 seals preserving freshness</span></div>
+    <div class="anno" id="a-hygro"><b>Digital hygrometer</b><span>Humidity and temperature at a glance</span></div>
+    </div>
+    <div class="step on">
+      <h2>Pre-Roll Vault</h2>
+      <p>Ten individual wells keep king-size pre-rolls upright. Scroll to see how the Vault loads and seals.</p>
+    </div>
+    <div class="step">
+      <h2>Boveda goes in first</h2>
+      <p>A 58% RH pack slides into its own slot in the wall. Boveda absorbs or releases moisture to help keep humidity steady inside the Vault.</p>
+    </div>
+    <div class="step">
+      <h2>Ten kings, standing</h2>
+      <p>Each king size pre-roll drops into its own tapered well, upright and apart. No crushed tips.</p>
+    </div>
+    <div class="step">
+      <h2>Two TPU rings</h2>
+      <p>A flat ring sits on the shoulder and a second ring sits inside the cap. Two seals preserving freshness.</p>
+    </div>
+    <div class="step">
+      <h2>Twist it shut</h2>
+      <p>The triple-start thread pulls the cap down in a short twist, pressing both seal rings into place.</p>
+    </div>
+    <div class="step">
+      <h2>Read it at a glance</h2>
+      <p>A hygrometer in the lid shows humidity and temperature without opening the jar.</p>
+      <div class="row"><a class="btn" href="#shop">Shop the Pre-Roll Vault</a></div>
+    </div>
+    <div class="cue">Scroll</div>
+  </div>
+</section>
+
+<section id="bud-track" aria-label="Bud Vault demonstration"><div class="sticky">
+ <div class="model-view">
+    <canvas id="bud-stage"></canvas><p id="bud-err"></p>
+ <svg id="bud-annoLines"></svg>
+ <div class="anno" id="bud-a-boveda"><b>2x Boveda 58% included</b><span>Lasts up to 3 months</span></div>
+ <div class="anno" id="bud-a-bottom-pack"><b>Optional second Boveda</b><span>Place it flat on the bottom</span></div>
+ <div class="anno" id="bud-a-buds"><b>Holds 1 oz</b></div>
+ <div class="anno" id="bud-a-rings"><b>TPU O-rings</b><span>2 seals preserving freshness</span></div>
+ <div class="anno" id="bud-a-hygro"><b>Digital hygrometer</b><span>Humidity and temperature at a glance</span></div>
+    </div>
+    <div class="step on"><div class="k">Stash jar humidor</div><h2>Bud Vault</h2><p>Holds 1 oz of bud. Scroll to load it up.</p><a class="btn" href="#bud-vault-product">Shop Bud Vault</a></div>
+ <div class="step"><h2>Boveda goes in first</h2><p>Slide a Boveda 58% RH pack behind the liner. For a second pack, lay it flat on the bottom before adding your buds.</p></div>
+ <div class="step"><h2>Fill it up</h2><p>Pour up to 1 oz of your finest buds in.</p></div>
+ <div class="step"><h2>Twist it shut</h2><p>The lid seats on its two rings and twists down.</p></div>
+ <div class="step"><h2>Digital hygrometer</h2><p>Humidity and temperature at a glance, built into the lid.</p><a class="btn" href="#bud-vault-product">Shop Bud Vault</a></div>
+</div></section>
+
+</main>
+
+<section class="after" id="shop">
+  <h2>Pick your vault</h2>
+  <div class="grid">
+    <div class="card"><div class="product-photo" style="--photo-scale:1.13;--photo-offset:0%"><img class="ph" src="img1.jpg" alt="Pre-Roll Vault in Oreo with NFC totem"></div><h3>Pre-Roll Vault</h3><ul class="features"><li>Holds 10 king size joints</li><li>2x Boveda 58% included</li><li>Digital hygrometer in the lid</li></ul><button class="btn" disabled title="Unavailable in this preview">Shop Pre-Roll</button></div>
+    <div class="card" id="bud-vault-product"><div class="product-photo" style="--photo-scale:1.13;--photo-offset:0%"><img class="ph" src="img2.jpg" alt="Bud Vault in Sand with NFC totem"></div><h3>Bud Vault</h3><ul class="features"><li>Holds 1 oz of bud</li><li>2x Boveda 58% included</li><li>Digital hygrometer in the lid</li></ul><button class="btn" disabled title="Unavailable in this preview">Shop Bud</button></div>
+    <div class="card"><div class="product-photo" style="--photo-scale:1.21;--photo-offset:1.5%"><img class="ph" src="img3.webp" alt="Black Pre-Roll Vault and Bud Vault with NFC totems"></div><h3>The Duo</h3><p>Pre-Roll Vault and Bud Vault together as a matched set.</p><button class="btn" disabled title="Unavailable in this preview">Shop the set</button></div>
+    <div class="card">
+      <div class="product-photo" style="--photo-scale:1.21;--photo-offset:-1%"><img class="ph special-edition-photo" src="img4.webp" alt="Orange Inferno Pre-Roll Vault and Bud Vault with NFC totems"></div>
+      <h3>Special Editions</h3>
+      <p>Explore special-edition Vaults in limited-run colorways.</p>
+      <button class="btn" disabled title="Unavailable in this preview">Shop Special Editions</button>
+    </div>
+  </div>
+</section>
+<section class="after split">
+  <div><h2>See inside the vault</h2><p>Place a full size cross-section on your table with your phone. No app needed.</p><button class="btn ghost" disabled title="Unavailable in this preview">View in AR</button></div>
+  <img class="wide" src="img5.jpg" alt="Labeled cross-section of the Pre-Roll Vault and Bud Vault">
+</section>
+<section class="band" id="wholesale"><h2>Stock Terp Vault in your shop</h2><button class="btn" disabled title="Unavailable in this preview">Wholesale</button></section>
+<footer><span>© TerpVault</span><span>Mockup for review. Product, AR, and wholesale buttons are placeholders.</span></footer>
+<div class="tag">Mockup</div>
+
+<script>
+  const hero = document.getElementById("hero");
+  function updateHeroParallax() {
+    const distance = Math.min(window.scrollY, hero.clientHeight);
+    const photo = document.getElementById("hero-product");
+    const clearance = Math.max(0, hero.clientHeight - photo.offsetTop - photo.offsetHeight - 8);
+    const drift = Math.min(distance * .22, clearance);
+    hero.style.setProperty("--hero-drift", `${drift}px`);
+  }
+  window.addEventListener("scroll", updateHeroParallax, {passive:true});
+  window.addEventListener("pageshow", updateHeroParallax);
+  window.addEventListener("resize", updateHeroParallax);
+  document.getElementById("hero-product").src =
+    document.querySelector('img[alt="Orange Inferno Pre-Roll Vault and Bud Vault with NFC totems"]').src;
+</script>
+<img id="boveda-pack-photo" hidden alt="" src="img6.jpg">
+<script src="s1.js?v=1"></script>
+<script src="s2.js?v=1"></script>
+<script src="s3.js?v=1"></script>
+<script src="s4.js?v=1"></script>
+</body>
+</html>
