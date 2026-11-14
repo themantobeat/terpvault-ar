@@ -3710,23 +3710,10 @@ vObjP = position;`),t.fragmentShader=t.fragmentShader.replace("#include <common>
       }`).replace("#include <color_fragment>",`#include <color_fragment>
       float sp = max(speck(vObjP * 1250.0, 0.62, 0.44), max(speck(vObjP * 2100.0 + 3.1, 0.55, 0.42) * 0.85, speck(vObjP * 700.0 + 9.7, 0.88, 0.36)));
       diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * vec3(0.24, 0.20, 0.19), sp * 0.92);`)},s.customProgramCacheKey=()=>"marble"+e}function Z0(){let s=document.createElement("canvas");s.width=s.height=512;let e=s.getContext("2d"),t=e.createRadialGradient(256,230,40,256,256,256);t.addColorStop(0,"#c9dccd"),t.addColorStop(1,"#93ab99"),e.fillStyle=t,e.beginPath(),e.arc(256,256,256,0,Math.PI*2),e.fill(),e.fillStyle="#0c1410",e.textAlign="center",e.font='bold 210px "Courier New", monospace',e.fillText("58",215,310),e.font="bold 70px Arial, sans-serif",e.fillText("%",380,300),e.font="bold 44px Arial, sans-serif",e.fillText("RH",380,230),e.font="bold 64px Arial, sans-serif",e.fillText("68\xB0F",256,400);let n=new Ds(s);return n.colorSpace=Je,n.anisotropy=8,n}function K0(){
-  const canvas=document.createElement("canvas");
-  canvas.width=452;
-  canvas.height=412;
-  const context=canvas.getContext("2d");
-  context.fillStyle="#c9a987";
-  context.fillRect(0,0,canvas.width,canvas.height);
-  const texture=new Ds(canvas);
+  const texture=new Et(document.getElementById("boveda-pack-photo"));
   texture.colorSpace=Je;
-  texture.anisotropy=8;
-  const photo=document.getElementById("boveda-pack-photo");
-  // Use the kraft packet face, excluding the clear outer wrapper.
-  const draw=()=>{
-    context.drawImage(photo,222,267,451,411,0,0,canvas.width,canvas.height);
-    texture.needsUpdate=true;
-  };
-  if(photo.complete&&photo.naturalWidth)draw();
-  else photo.addEventListener("load",draw,{once:true});
+  texture.anisotropy=4;
+  texture.needsUpdate=true;
   return texture;
 }
 var yi=_i.degToRad(22),J0=-Math.PI/2-_i.degToRad(26);function $0(){
