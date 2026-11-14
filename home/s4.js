@@ -3831,7 +3831,7 @@ mn.render(Qn,Ln);if(!hero)s_(s)}var t_=document.getElementById("bud-annoLines"),
       start+(distance-start)*originalSpan/(originalSpan+added):distance-added;
   const original=adjusted/6;
   return original<.065?original*2:.13+(original-.065)*(.87/.935);
-}function eu(s){$n+=(ls-$n)*tvE(.12,"b"),Math.abs(ls-$n)<5e-4&&($n=ls);let e=Qh?a_($n):$n;if(r_.getBoundingClientRect().bottom>0&&r_.getBoundingClientRect().top<innerHeight)Jh(e,s);let t=e_.reduce((n,i,r)=>e>=i?r:n,0);o_.forEach((n,i)=>n.classList.toggle("on",i===t)),requestAnimationFrame(eu)}ls=$n=jh();requestAnimationFrame(eu);})();
+}function eu(s){$n+=(ls-$n)*Math.max(tvE(.12,"b"),Math.min(.5,Math.abs(ls-$n)*4)),Math.abs(ls-$n)<5e-4&&($n=ls);let e=Qh?a_($n):$n;if(r_.getBoundingClientRect().bottom>0&&r_.getBoundingClientRect().top<innerHeight)Jh(e,s);let t=e_.reduce((n,i,r)=>e>=i?r:n,0);o_.forEach((n,i)=>n.classList.toggle("on",i===t)),requestAnimationFrame(eu)}ls=$n=jh();requestAnimationFrame(eu);})();
 /*! Bundled license information:
 
 three/build/three.module.js:
