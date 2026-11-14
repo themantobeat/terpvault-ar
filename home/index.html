@@ -110,7 +110,7 @@
   @media (max-width:800px) {
     #track .step, #bud-track .step { top:auto; bottom:42px; left:18px; right:18px; width:auto; max-height:42%; overflow-y:auto; }
     #track .step h1 { font-size:clamp(37px,11vw,64px); }
-    #track .step h2, #bud-track .step h2 { font-size:clamp(30px,8vw,48px); }
+    #track .step h2, #bud-track .step h2 { font-size:clamp(22px,6vw,34px); }
     .step p { margin-top:10px; }
     .step .row { margin-top:12px; gap:8px; }
     .step .btn { padding:9px 16px; font-size:14px; }
@@ -161,6 +161,15 @@
     .vid-frame { position:static; width:100%; }
     .vid-cap { text-align:center; }
   }
+</style>
+<style>
+.scrollcue{display:none}
+@media (max-width:800px){
+.scrollcue{display:flex;position:fixed;left:50%;bottom:8px;transform:translateX(-50%);z-index:40;align-items:center;gap:6px;font:600 11px/1 Figtree,system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#7cdcd2;pointer-events:none;transition:opacity .3s;text-shadow:0 1px 8px #000}
+.scrollcue.off{opacity:0}
+.scrollcue svg{width:14px;height:14px;animation:cuebob 1.4s ease-in-out infinite}
+@keyframes cuebob{0%,100%{transform:translateY(-2px)}50%{transform:translateY(3px)}}
+}
 </style>
 </head>
 <body>
@@ -296,8 +305,10 @@
 </script>
 <img id="boveda-pack-photo" hidden alt="" src="img6.jpg">
 <script src="s1.js?v=1"></script>
-<script src="s2.js?v=3"></script>
+<script src="s2.js?v=4"></script>
 <script src="s3.js?v=1"></script>
-<script src="s4.js?v=2"></script>
+<script src="s4.js?v=3"></script>
+<div class="scrollcue" id="scrollcue" aria-hidden="true">Scroll<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v11M3.5 8.5 8 13l4.500-4.500"/></svg></div>
+<script>(function(){var c=document.getElementById('scrollcue'),e=document.getElementById('shop');function u(){c.classList.toggle('off',!e||e.getBoundingClientRect().top<innerHeight*1.2)}addEventListener('scroll',u,{passive:true});addEventListener('resize',u);u()})();</script>
 </body>
 </html>
