@@ -65,7 +65,8 @@
   section.after { padding:clamp(48px,8vw,110px) clamp(18px,6vw,90px); }
   .after h2 { font-size:clamp(36px,5vw,64px); color:var(--mint); }
   .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:22px; margin-top:34px; }
-  .card { background:#151515; border:1px solid #262626; border-radius:18px; padding:26px; }
+  .card { display:flex; flex-direction:column; background:#151515; border:1px solid #262626; border-radius:18px; padding:26px; }
+  .card > .btn { align-self:flex-start; margin-top:auto; }
   .card .ph { display:block; width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px; background:#000; }
   img.wide { display:block; width:100%; border-radius:18px; margin-top:28px; background:#000; }
   .after.split { padding-top:0; }
