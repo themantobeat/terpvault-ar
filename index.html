@@ -13,7 +13,7 @@
   * { box-sizing: border-box; }
   html, body { margin:0; height:100%; background:var(--bg); color:var(--cream); font-family:system-ui, sans-serif; }
   body { position:relative; min-height:100dvh; overflow:hidden; }
-  header { position:absolute; z-index:2; left:max(20px, calc((100% - 980px) / 2)); top:0; max-width:min(52%, 520px); padding:26px 0 0; text-align:left; pointer-events:none; }
+  header { position:absolute; z-index:2; left:max(20px, calc((100% - 980px) / 2)); top:0; max-width:min(52%, 520px); padding:60px 0 0; text-align:left; pointer-events:none; }
   h1 { color:var(--mint); margin:0; font-size:clamp(28px,4.6vw,56px); line-height:1.02; letter-spacing:.02em; text-wrap:balance; }
   header p { margin:10px 0 0; color:#c9c4b8; font-size:clamp(15px,1.6vw,19px); line-height:1.35; }
   model-viewer { position:absolute; inset:0; width:100%; height:100%; --poster-color:transparent; }
@@ -29,7 +29,7 @@
   .ar-fallback { display:none; position:absolute; z-index:3; right:max(16px, calc((100% - 980px) / 2)); bottom:20px; width:236px; padding:12px; border-radius:14px; background:rgba(22,22,22,.86); border:1px solid rgba(243,238,227,.14); backdrop-filter:blur(8px); color:var(--cream); font-size:13px; line-height:1.3; }
   .ar-fallback .row { display:flex; gap:12px; align-items:center; }
   .ar-fallback .row[hidden] { display:none; }
-  @media (max-width:700px) { .hint { display:none; } header { max-width:calc(100% - 40px); left:20px; padding-top:18px; } h1 { font-size:clamp(26px,8vw,40px); } }
+  @media (max-width:700px) { .hint { display:none; } header { max-width:calc(100% - 40px); left:20px; padding-top:58px; } h1 { font-size:clamp(26px,8vw,40px); } }
   .ar-fallback img { width:84px; height:84px; flex:none; border-radius:8px; background:#fff; padding:4px; display:block; }
   .ar-fallback b { display:block; font-size:14px; margin-bottom:3px; color:var(--cream); }
   .ar-fallback span { color:var(--muted); }
@@ -37,12 +37,14 @@
   .ar-fallback .arbtn { display:inline-block; font:500 15px system-ui,sans-serif; background:var(--mint); color:#0b0b0b; text-decoration:none; border-radius:999px; padding:12px 20px; white-space:nowrap; }
   .ar-fallback.link { left:50%; right:auto; transform:translateX(-50%); width:auto; max-width:calc(100% - 32px); text-align:center; bottom:calc(16px + env(safe-area-inset-bottom, 0px)); }
   .ar-fallback a { color:var(--mint); }
+  .back { position:fixed; z-index:6; top:14px; left:max(20px, calc((100% - 980px) / 2)); font:500 14px system-ui, sans-serif; color:var(--mint); text-decoration:none; background:rgba(22,22,22,.85); border:1px solid rgba(124,220,210,.4); border-radius:999px; padding:8px 14px; }
   .err { color:#f08080; text-align:center; padding:8px 16px; font-size:14px; }
 </style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4RDYHP8B6Y"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-4RDYHP8B6Y");</script>
 </head>
 <body>
+  <a class="back" id="backlink" href="https://www.terpvault.com/">&larr; Back to TerpVault</a>
   <header>
     <h1>SEE INSIDE THE VAULT</h1>
     <p>Spin it, zoom in, or place it on your table.</p>
@@ -109,5 +111,6 @@
   mv.addEventListener('load', () => setTimeout(showFallback, 300));
 
 </script>
+<script>document.getElementById('backlink').addEventListener('click',function(e){if(history.length>1){e.preventDefault();history.back();}});</script>
 </body>
 </html>
