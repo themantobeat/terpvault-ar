@@ -185,6 +185,18 @@
 .thanks p{color:#f3eee3;font-size:15px;line-height:1.45;margin:0 0 18px}
 .thanks button{font:600 15px Jost,system-ui,sans-serif;background:#7cdcd2;color:#0b0b0b;border:0;border-radius:999px;padding:12px 22px;cursor:pointer}
 </style>
+<style>
+.qn{display:grid;grid-template-columns:1fr 2fr;background:#000;border-top:3px solid #63b8af;border-bottom:3px solid #63b8af;min-height:220px}
+.qn-l{display:flex;align-items:center;justify-content:center;border-right:3px solid #63b8af;padding:18px}
+.qn-logo{width:min(190px,100%);height:auto;aspect-ratio:1/1}
+.qn-t{font-family:Anton,Impact,sans-serif;font-size:23px;letter-spacing:2.5px;fill:#7cdcd2}
+.qn-r{display:flex;flex-direction:column;justify-content:center;padding:24px 6%;gap:6px}
+.qn-k{font-family:Jost,'Futura',sans-serif;font-weight:600;font-size:13px;letter-spacing:.34em;color:#f2ede4;text-transform:uppercase}
+.qn-h{font-family:Anton,Impact,sans-serif;font-size:46px;line-height:1.05;letter-spacing:1.5px;color:#63b8af;text-transform:uppercase}
+.qn-bar{width:84px;height:3px;background:#63b8af;border-radius:2px;margin:6px 0 4px}
+@media (max-width:700px){.qn{min-height:150px}.qn-h{font-size:30px}.qn-k{font-size:11px}}
+@media (max-width:420px){.qn-l{padding:10px}.qn-r{padding:14px;gap:4px}.qn-h{font-size:20px;letter-spacing:1px}.qn-k{font-size:9px;letter-spacing:.26em}.qn-bar{width:50px;margin:3px 0 2px}}
+</style>
 </head>
 <body>
 <div id="bar"></div>
@@ -276,6 +288,50 @@
     </div>
   </div>
 </section>
+<section class="qn" id="queens" aria-label="Handmade and assembled in Queens, New York">
+<div class="qn-l"><svg class="qn-logo" viewBox="0 0 320 320" role="img" aria-label="Handmade and assembled in Queens, NY" shape-rendering="geometricPrecision">
+  <defs>
+    <path id="qn-top" d="M32.5,160 A127.5,127.5 0 0 1 287.5,160"/>
+    <path id="qn-bot" d="M32.5,160 A127.5,127.5 0 0 0 287.5,160"/>
+  </defs>
+  <circle cx="160" cy="160" r="158" fill="#000"/>
+  <circle cx="160" cy="160" r="153" fill="none" stroke="#7cdcd2" stroke-width="3"/>
+  <circle cx="160" cy="160" r="147" fill="none" stroke="#63b8af" stroke-width="1"/>
+  <circle cx="160" cy="160" r="108" fill="none" stroke="#63b8af" stroke-width="1"/>
+  <circle cx="160" cy="160" r="102" fill="none" stroke="#7cdcd2" stroke-width="3"/>
+  <circle cx="160" cy="160" r="94" fill="none" stroke="#63b8af" stroke-width="1" stroke-dasharray="1.5 4.5"/>
+  <text class="qn-t" dominant-baseline="central"><textPath href="#qn-top" startOffset="50%" text-anchor="middle">HANDMADE &amp; ASSEMBLED IN</textPath></text>
+  <text class="qn-t" dominant-baseline="central"><textPath href="#qn-bot" startOffset="50%" text-anchor="middle">QUEENS · NY</textPath></text>
+  <!-- side stars -->
+  <g fill="#7cdcd2">
+    <path transform="translate(32.5,160)" d="M0,-7 L2,-2 7,0 2,2 0,7 -2,2 -7,0 -2,-2Z"/>
+    <path transform="translate(287.5,160)" d="M0,-7 L2,-2 7,0 2,2 0,7 -2,2 -7,0 -2,-2Z"/>
+  </g>
+  <!-- crossed tools: matched 10px handles, matched grips -->
+  <defs>
+    <mask id="qn-wh" maskUnits="userSpaceOnUse" x="-40" y="-90" width="80" height="80">
+      <rect x="-40" y="-90" width="80" height="80" fill="#fff"/>
+      <rect x="-7" y="-90" width="14" height="44" fill="#000"/>
+      <circle cx="0" cy="-46" r="7" fill="#000"/>
+    </mask>
+  </defs>
+  <g id="qn-tools" transform="translate(158.2,161.8) scale(1.28)">
+    <g transform="rotate(-45)">
+      <rect x="-5" y="-38" width="10" height="96" rx="5" fill="#7cdcd2"/>
+      <rect x="-5" y="38" width="10" height="20" rx="5" fill="#63b8af"/>
+      <rect x="-26" y="-58" width="52" height="20" rx="4" fill="#7cdcd2"/>
+      <rect x="-8" y="-40" width="16" height="6" rx="2" fill="#63b8af"/>
+    </g>
+    <g transform="rotate(45)">
+      <rect x="-5" y="-38" width="10" height="96" rx="5" fill="#7cdcd2"/>
+      <rect x="-5" y="38" width="10" height="20" rx="5" fill="#63b8af"/>
+      <circle cx="0" cy="-48" r="20" fill="#7cdcd2" mask="url(#qn-wh)"/>
+    </g>
+  </g>
+</svg></div>
+<div class="qn-r"><div class="qn-k">Proudly</div><div class="qn-h">Handmade &amp; assembled<br>in Queens, New York</div><div class="qn-bar"></div></div>
+</section>
+
 <section class="after split">
   <div><h2>See inside the vault</h2><p>Place a full size cross-section on your table with your phone. No app needed.</p><a class="btn ghost" href="https://themantobeat.github.io/terpvault-ar/" rel="noopener">View in AR</a></div>
   <img class="wide" src="img5.jpg" alt="Labeled cross-section of the Pre-Roll Vault and Bud Vault">
