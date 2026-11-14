@@ -1,6 +1,6 @@
 /* TerpVault home page beta: shows the hosted home page full screen inside the Wix page. */
 (function () {
-  var SRC = 'https://themantobeat.github.io/terpvault-ar/home/?v=2';
+  var SRC = 'https://themantobeat.github.io/terpvault-ar/home/?v=3';
   class TvHome extends HTMLElement {
     connectedCallback() {
       if (this._f) return;
