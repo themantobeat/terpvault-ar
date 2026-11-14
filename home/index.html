@@ -175,6 +175,14 @@
 @keyframes cuebob{0%,100%{transform:translateY(-2px)}50%{transform:translateY(3px)}}
 }
 </style>
+<style>
+.thanks{position:fixed;inset:0;z-index:9500;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.72);padding:20px}
+.thanks.on{display:flex}
+.thanks .card{background:#141414;border:1px solid rgba(124,220,210,.35);border-radius:16px;padding:28px 24px;text-align:center;max-width:340px;width:100%}
+.thanks h3{font-family:Anton,Impact,sans-serif;font-weight:400;color:#7cdcd2;font-size:34px;margin:0 0 10px;letter-spacing:.02em;text-transform:uppercase}
+.thanks p{color:#f3eee3;font-size:15px;line-height:1.45;margin:0 0 18px}
+.thanks button{font:600 15px Jost,system-ui,sans-serif;background:#7cdcd2;color:#0b0b0b;border:0;border-radius:999px;padding:12px 22px;cursor:pointer}
+</style>
 </head>
 <body>
 <div id="bar"></div>
@@ -255,14 +263,14 @@
 <section class="after" id="shop">
   <h2>Pick your vault</h2>
   <div class="grid">
-    <div class="card"><div class="product-photo" style="--photo-scale:1.13;--photo-offset:0%"><img class="ph" src="img1.jpg" alt="Pre-Roll Vault in Oreo with NFC totem"></div><h3>Pre-Roll Vault</h3><ul class="features"><li>Holds 10 king size joints</li><li>2x Boveda 58% included</li><li>Digital hygrometer in the lid</li></ul><a class="btn" href="#shop" target="_top">Shop Pre-Roll</a></div>
-    <div class="card" id="bud-vault-product"><div class="product-photo" style="--photo-scale:1.13;--photo-offset:0%"><img class="ph" src="img2.jpg" alt="Bud Vault in Sand with NFC totem"></div><h3>Bud Vault</h3><ul class="features"><li>Holds 1 oz of bud</li><li>2x Boveda 58% included</li><li>Digital hygrometer in the lid</li></ul><a class="btn" href="#shop" target="_top">Shop Bud</a></div>
-    <div class="card"><div class="product-photo" style="--photo-scale:1.21;--photo-offset:1.5%"><img class="ph" src="img3.webp" alt="Black Pre-Roll Vault and Bud Vault with NFC totems"></div><h3>The Duo</h3><p>Pre-Roll Vault and Bud Vault together as a matched set.</p><a class="btn" href="#shop" target="_top">Shop the set</a></div>
+    <div class="card"><div class="product-photo" style="--photo-scale:1.13;--photo-offset:0%"><img class="ph" src="img1.jpg" alt="Pre-Roll Vault in Oreo with NFC totem"></div><h3>Pre-Roll Vault</h3><ul class="features"><li>Holds 10 king size joints</li><li>2x Boveda 58% included</li><li>Digital hygrometer in the lid</li></ul><a class="btn shopcta" href="#shop">Shop Pre-Roll</a></div>
+    <div class="card" id="bud-vault-product"><div class="product-photo" style="--photo-scale:1.13;--photo-offset:0%"><img class="ph" src="img2.jpg" alt="Bud Vault in Sand with NFC totem"></div><h3>Bud Vault</h3><ul class="features"><li>Holds 1 oz of bud</li><li>2x Boveda 58% included</li><li>Digital hygrometer in the lid</li></ul><a class="btn shopcta" href="#shop">Shop Bud</a></div>
+    <div class="card"><div class="product-photo" style="--photo-scale:1.21;--photo-offset:1.5%"><img class="ph" src="img3.webp" alt="Black Pre-Roll Vault and Bud Vault with NFC totems"></div><h3>The Duo</h3><p>Pre-Roll Vault and Bud Vault together as a matched set.</p><a class="btn shopcta" href="#shop">Shop the set</a></div>
     <div class="card">
       <div class="product-photo" style="--photo-scale:1.21;--photo-offset:-1%"><img class="ph special-edition-photo" src="img4.webp" alt="Orange Inferno Pre-Roll Vault and Bud Vault with NFC totems"></div>
       <h3>Special Editions</h3>
       <p>Explore special-edition Vaults in limited-run colorways.</p>
-      <a class="btn" href="#shop" target="_top">Shop Special Editions</a>
+      <a class="btn shopcta" href="#shop">Shop Special Editions</a>
     </div>
   </div>
 </section>
@@ -314,5 +322,13 @@
 <script src="s4.js?v=5"></script>
 <div class="scrollcue" id="scrollcue" aria-hidden="true">Scroll<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v11M3.5 8.5 8 13l4.500-4.500"/></svg></div>
 <script>(function(){var c=document.getElementById('scrollcue'),e=document.getElementById('shop');function u(){c.classList.toggle('off',!e||e.getBoundingClientRect().top<innerHeight*1.2)}addEventListener('scroll',u,{passive:true});addEventListener('resize',u);u()})();</script>
+<div class="thanks" id="thanks" role="dialog" aria-modal="true" aria-labelledby="thanksh"><div class="card"><h3 id="thanksh">Thanks for Testing!</h3><p>Checkout is turned off on the beta, so nothing was bought.</p><button type="button" id="thanksback">Back to home beta</button></div></div>
+<script>
+(function(){var t=document.getElementById('thanks');
+document.querySelectorAll('.shopcta').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();t.classList.add('on');});});
+document.getElementById('thanksback').addEventListener('click',function(){t.classList.remove('on');window.scrollTo({top:0,behavior:'smooth'});});
+t.addEventListener('click',function(e){if(e.target===t)t.classList.remove('on');});
+})();
+</script>
 </body>
 </html>
