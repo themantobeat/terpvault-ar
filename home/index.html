@@ -385,7 +385,6 @@ html.wix .nav,html.wix #tv-login{display:none!important}
         packetPhoto.addEventListener("error", resolve, {once:true});
       }
     });
-  const budTrack = document.getElementById("bud-track");
   function loadVaultScript(src) {
     return new Promise((resolve, reject) => {
       const script = document.createElement("script");
@@ -414,16 +413,7 @@ html.wix .nav,html.wix #tv-login{display:none!important}
         "The Bud Vault animation could not load. Refresh to try again.";
     }
   }
-  if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver(entries => {
-      if (!entries.some(entry => entry.isIntersecting)) return;
-      observer.disconnect();
-      loadBudVault();
-    }, {rootMargin: (window.innerWidth <= 800 ? 8 : 4) * window.innerHeight + "px 0px"});
-    observer.observe(budTrack);
-  } else {
-    window.addEventListener("load", loadBudVault, {once:true});
-  }
+  document.addEventListener("DOMContentLoaded", loadBudVault, {once:true});
 </script>
 <div class="scrollcue" id="scrollcue" aria-hidden="true">Scroll<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v11M3.5 8.5 8 13l4.500-4.500"/></svg></div>
 <script>(function(){var c=document.getElementById('scrollcue'),e=document.getElementById('shop');function u(){c.classList.toggle('off',!e||e.getBoundingClientRect().top<innerHeight*1.2)}addEventListener('scroll',u,{passive:true});addEventListener('resize',u);u()})();</script>
