@@ -419,7 +419,7 @@ html.wix .nav,html.wix #tv-login{display:none!important}
       if (!entries.some(entry => entry.isIntersecting)) return;
       observer.disconnect();
       loadBudVault();
-    }, {rootMargin:"240% 0px"});
+    }, {rootMargin:"800% 0px"});
     observer.observe(budTrack);
   } else {
     window.addEventListener("load", loadBudVault, {once:true});
